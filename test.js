@@ -13,7 +13,7 @@ connection.connect();
 app.get("/", function(req, res){
   console.log("Somebody accessed");
   
-  res.sendFile("./test.html");
+  res.sendFile("test.html");
   /*
   connection.query("SELECT * FROM jap_words", function(error, results, fields){
     if(error){
