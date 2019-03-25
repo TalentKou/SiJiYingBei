@@ -1,0 +1,29 @@
+{
+  "name": "sijiyingbei",
+  "version": "1.0.0",
+  "description": "sijiyingbei project has been created",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TalentKou/SiJiYingBei.git"
+  },
+  "keywords": [
+    "study",
+    "Foreign",
+    "languages"
+  ],
+  "author": "koucaihua",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TalentKou/SiJiYingBei/issues"
+  },
+  "homepage": "https://github.com/TalentKou/SiJiYingBei#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mysql": "^2.16.0",
+    "vue": "^2.6.10"
+  }
+}

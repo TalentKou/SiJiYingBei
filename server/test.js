@@ -9,12 +9,25 @@ var connection=mysql.createConnection({
 });
 
 connection.connect();
+const mainDir = "/root/SiJiYingBei/";
 
 app.get("/", function(req, res){
-  console.log("Somebody accessed");
-  res.sendFile("/root/SiJiYingBei/SiJiYingBei/test.html");
+  console.log("Somebody accessed" + req.url);
+ 
+  res.sendFile(mainDir + "front/index.html");
 });
 
+app.get("*app.*", function(req, res){
+  console.log("request app.*" + req.url);
+  res.sendFile(mainDir + req.url);
+});
+
+app.get("*vue.*", function(req, res){
+  console.log("request vue.*" + req.url);
+  res.sendFile(mainDir + "node_modules/vue/dist/vue.min.js");
+});
+
+/*
 app.get("/", function(req, res){
   console.log("Somebody want words");
   
@@ -27,6 +40,8 @@ app.get("/", function(req, res){
     console.log(results);
   });
   
-});
+});*/
 
 app.listen(80);
+
+console.log("47.104.67.32");
