@@ -13,6 +13,13 @@ new Vue({
                     console.log('请求失败处理');
                 });
 		},
+		addWords: function(){
+			this.$http.get('/add_words').then(function(res){
+                    console.log(res);    
+                },function(){
+                    console.log('请求失败处理');
+                });
+		},
 	}
 });
 
