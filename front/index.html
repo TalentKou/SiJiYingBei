@@ -27,14 +27,14 @@
     <td class="btbg font-center titfont">汉字</td>
     <td class="btbg font-center titfont">假名</td>
     <td class="btbg font-center titfont">意思</td>
-    <td class="btbg font-center titfont">句子</td>
+    <td colspan="2" class="btbg font-center titfont">句子</td>
   </tr>
   <tr class="wd-add">
     <td class="btbg1 font-center"><button type="button" @click="addWords">添加</button></td>
     <td class="font-center"><input v-model="newWord.jap_hanzi"/></td>
     <td class="font-center"><input v-model="newWord.jap_jaming"/></td>
     <td class="font-center"><input v-model="newWord.jap_yisi"/></td>
-    <td class="font-center"><input v-model="newWord.jap_juzi"/></td>
+    <td colspan="2" class="font-center"><input v-model="newWord.jap_juzi"/></td>
   </tr>
   <tr v-for="(word, index) in words">
     <td class="btbg1 font-center">{{index+1}}</td>
@@ -42,6 +42,7 @@
     <td class="font-center">{{word.jap_jaming}}</td>
     <td class="font-center">{{word.jap_yisi}}</td>
     <td class="font-center">{{word.jap_juzi}}</td>
+    <td class="btbg1 font-center"><button type="button" @click="deleteWord(index)">删除</button></td>
   </tr>
 </table>
 </div>
