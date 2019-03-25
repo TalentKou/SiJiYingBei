@@ -19,16 +19,16 @@ app.get("/", function(req, res){
 
 app.get("*app.*", function(req, res){
   console.log("request app.*" + req.url);
-  res.sendFile(mainDir + req.url);
+  res.sendFile(mainDir + "front/" + req.url);
 });
 
-app.get("*vue.*", function(req, res){
-  console.log("request vue.*" + req.url);
-  res.sendFile(mainDir + "node_modules/vue/dist/vue.min.js");
+app.get("*vue*", function(req, res){
+  console.log("request vue*" + req.url);
+  var moduleName = req.url.split(".")[0];
+  res.sendFile(mainDir + "node_modules/"+ moduleName  +"/dist/" + moduleName + ".min.js");
 });
 
-/*
-app.get("/", function(req, res){
+app.get("/get_words", function(req, res){
   console.log("Somebody want words");
   
   connection.query("SELECT * FROM jap_words", function(error, results, fields){
@@ -40,8 +40,9 @@ app.get("/", function(req, res){
     console.log(results);
   });
   
-});*/
+});
 
 app.listen(80);
 
 console.log("47.104.67.32");
+
