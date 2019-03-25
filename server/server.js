@@ -44,9 +44,9 @@ app.get("/get_words", function(req, res){
 
 app.get("/add_words", function(req, res){
   console.log("Somebody want add words");
-  
-  connection.query("INSERT INTO jap_words(jap_hanzi, jap_jiaming, jap_yisi, jap_juzi) VALUES(?,?,?,?)", 
-                   ['漢字', 'かんじ','汉字', '漢字は面白いです。（汉字是很有意思的。）'],
+  var addSql='INSERT INTO jap_words(jap_hanzi, jap_jiaming, jap_yisi, jap_juzi) VALUES(?,?,?,?)';
+  var addSqlParams=['漢字','かんじ','汉字','漢字は面白いです。（汉字是很有意思的。）'];
+  connection.query(addSql, addSqlParams,
                    function(error, result){
                      if(error){
                        console.log('[INSERT ERROR] - ',error.message);
