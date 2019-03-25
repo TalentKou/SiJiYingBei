@@ -50,6 +50,19 @@ app.get("/get_words", function(req, res){
   
 });
 
+app.get("/del_words/:jap_id", function(req, res){
+  console.log("Somebody want delete words");
+  
+  connection.query("DELETE FROM jap_words where jap_id=" + req.params.jap_id, function(error, result){
+    if(error){
+      console.log('[DELETE ERROR] - ',error.message);
+      return;
+    }
+    res.send(result);
+  });
+  
+});
+
 app.post("/add_words", upload.array(), function(req, res){
   console.log("Somebody want add words" + req.body.jap_hanzi);
   var addSql='INSERT INTO jap_words(jap_hanzi, jap_jaming, jap_yisi, jap_juzi) VALUES(?,?,?,?)';
