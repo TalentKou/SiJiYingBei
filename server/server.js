@@ -53,7 +53,7 @@ app.get("/add_words", function(req, res){
                        return;
                      }
     
-                     console.log('INSERT ID:',result.jap_id);
+                     console.log('INSERT ID:',result.insertId);
   });
 });
 
