@@ -45,7 +45,7 @@ new Vue({
 		},
 		deleteWord: function(index){
 			var word = this.words[index];
-			this.$http.get('/del_words?jap_id=' + word.jap_id).then(function(res){
+			this.$http.get('/del_words/:jap_id' + word.jap_id).then(function(res){
 				this.getWords();
                     console.log(res);    
                 },function(){
