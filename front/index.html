@@ -15,10 +15,7 @@
     </tr>
     <tr>
       <td align="right" height="25">
-	      <button type="button" @click="getWords">获取单词</button>
-	    </td>
-      <td align="right" height="25">
-	      <button type="button" @click="addWords">添加单词</button>
+	      <button type="button" @click="getWords">刷新列表</button>
 	    </td>
       <td align="right" height="25">2017-01-02---2017-05-02</td>
     </tr>
@@ -31,6 +28,13 @@
     <td class="btbg font-center titfont">假名</td>
     <td class="btbg font-center titfont">意思</td>
     <td class="btbg font-center titfont">句子</td>
+  </tr>
+  <tr class="wd-add">
+    <td class="btbg1 font-center"><button type="button" @click="addWords">添加</button></td>
+    <td class="font-center"><input v-model="newWord.jap_hanzi"/></td>
+    <td class="font-center"><input v-model="newWord.jap_jaming"/></td>
+    <td class="font-center"><input v-model="newWord.jap_yisi"/></td>
+    <td class="font-center"><input v-model="newWord.jap_juzi"/></td>
   </tr>
   <tr v-for="(word, index) in words">
     <td class="btbg1 font-center">{{index+1}}</td>
