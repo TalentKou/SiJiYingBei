@@ -3,6 +3,16 @@
 new Vue({
 	el: "#app",
 	data: {
-		message: "Hello World!"
+		words: []
+	},
+	methods: {
+		getWords: function(){
+			this.$http.get('/get_words').then(function(res){
+                    console.log(res);    
+                },function(){
+                    console.log('请求失败处理');
+                });
+		},
 	}
 });
+
