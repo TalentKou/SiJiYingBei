@@ -21,10 +21,22 @@ new Vue({
                 });
 		},
 		addWords: function(){
+			for((value, key) in this.newWord){
+			    if(value.trim() == ""){
+			        alert("请补全字段！");
+				return;
+			    }
+			}
 			this.$http.post('/add_words', 
 					this.newWord, 
 					{emulateJSON:true}).then(
 				function(res){
+					this.newWord={
+			jap_hanzi: '',
+			jap_jaming: '',
+			jap_yisi: '',
+			jap_juzi: '',
+		}
 					console.log(res.body);
 				},
 				function(res){
