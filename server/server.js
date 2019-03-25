@@ -1,5 +1,10 @@
 var mysql=require("mysql");
 var express=require("express");
+
+var bodyParser=require("body-parser");
+var multer=require("multer");
+var upload=multer();// for parsing multipart/form-data
+
 var app=express();
 var connection=mysql.createConnection({
   host: "localhost",
@@ -7,6 +12,9 @@ var connection=mysql.createConnection({
   password: "159-357-Talent",
   database: "WORDS"
 });
+
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 connection.connect();
 const mainDir = "/root/SiJiYingBei/";
@@ -42,10 +50,11 @@ app.get("/get_words", function(req, res){
   
 });
 
-app.post("/add_words", function(req, res){
-  console.log("Somebody want add words" + req);
-  /*var addSql='INSERT INTO jap_words(jap_hanzi, jap_jaming, jap_yisi, jap_juzi) VALUES(?,?,?,?)';
-  var addSqlParams=['漢字','かんじ','汉字','漢字は面白いです。（汉字是很有意思的。）'];
+app.post("/add_words", upload.array(), function(req, res){
+  console.log("Somebody want add words" + req.body.jap_hanzi);
+  var addSql='INSERT INTO jap_words(jap_hanzi, jap_jaming, jap_yisi, jap_juzi) VALUES(?,?,?,?)';
+  var d=req.body;
+  var addSqlParams=[d.jap_hanzi,d.jap_jaming,d.jap_yisi,d.jap_juzi];
   connection.query(addSql, addSqlParams,
                    function(error, result){
                      if(error){
@@ -54,7 +63,7 @@ app.post("/add_words", function(req, res){
                      }
     
                      console.log('INSERT ID:',result.insertId);
-  });*/
+  });
 });
 
 app.listen(80);

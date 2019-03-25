@@ -29,7 +29,6 @@ new Vue({
 					console.log(res.status);
 				});
 		},
-		},
 	}
 });
 
