@@ -21,8 +21,8 @@ new Vue({
                 });
 		},
 		addWords: function(){
-			for((value, key) in this.newWord){
-			    if(value.trim() == ""){
+			for(attr in this.newWord){
+			    if(this.newWord[attr].trim() == ""){
 			        alert("请补全字段！");
 				return;
 			    }
