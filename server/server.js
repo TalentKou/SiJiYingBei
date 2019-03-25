@@ -45,7 +45,7 @@ app.get("/get_words", function(req, res){
       return;
     }
     res.send(results);
-    console.log(results);
+    //console.log(results);
   });
   
 });
@@ -63,6 +63,7 @@ app.post("/add_words", upload.array(), function(req, res){
                      }
     
                      console.log('INSERT ID:',result.insertId);
+                     res.send(result);
   });
 });
 
