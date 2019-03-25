@@ -3,7 +3,13 @@
 new Vue({
 	el: "#app",
 	data: {
-		words: []
+		words: [],
+		newWord: {
+			jap_hanzi: '',
+			jap_jaming: '',
+			jap_yisi: '',
+			jap_juzi: '',
+		}
 	},
 	methods: {
 		getWords: function(){
@@ -16,12 +22,7 @@ new Vue({
 		},
 		addWords: function(){
 			this.$http.post('/add_words', 
-					{
-				jap_hanzi: "漢字",
-				jap_jaming: "かんじ",
-				jap_yisi: "汉字",
-				jap_juzi: "漢字は面白いです。（汉字是很有意思的。）",
-			}, 
+					this.newWord, 
 					{emulateJSON:true}).then(
 				function(res){
 					console.log(res.body);
