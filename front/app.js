@@ -8,6 +8,7 @@ new Vue({
 	methods: {
 		getWords: function(){
 			this.$http.get('/get_words').then(function(res){
+				this.words = res.body;
                     console.log(res);    
                 },function(){
                     console.log('请求失败处理');
