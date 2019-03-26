@@ -45,9 +45,8 @@
     </td>
     <td class="font-center"><input v-model="newWord.word_meaning"/></td>
     <td class="font-center">
-      <select v-model="newWord.mutant_id" name="mutant_id" 
-	      v-for="m_id in newWord.mutant_ids">
-        <option value="m_id">{{getMutant(m_id).typeName}}</option>
+      <select v-model="newWord.mutant_id" name="mutant_id">
+        <option v-for="m_id in newWord.mutant_ids" :value="m_id">{{getMutant(m_id).typeName}}</option>
       </select>	  
     </td>
     <td class="font-center">{{getMutant(newWord.mutant_id).word}}</td>

@@ -9,7 +9,7 @@ new Vue({
 			word_type: 1,
 			word_meaning: '痛苦的',
 			mutant_id: 1,
-			mutant_ids: [1],
+			mutant_ids: [1,2,3,4],
 			sentence_ids: [],
 		}
 	},
