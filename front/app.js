@@ -142,7 +142,7 @@ new Vue({
 		//删除原始单词
 		deleteWord: function(index){
 			var word = this.words[index];
-			this.$http.get('/del_words/:jap_id' + word.origin_id).then(function(res){
+			this.$http.get('/del_words/:jap_id=' + word.origin_id).then(function(res){
 				this.getWords();
                     console.log(res);    
                 },function(){
