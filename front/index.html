@@ -50,14 +50,17 @@
     <td class="font-center">{{getSentence(newWord.mutant_id).sentence}}</td>
     <td class="font-center">{{getSentence(newWord.mutant_id).translation}}</td>
   </tr>
-  <!--tr v-for="(word, index) in words">
+  <tr v-for="(word, index) in words">
     <td class="btbg1 font-center">{{index+1}}</td>
-    <td class="font-center">{{word.jap_hanzi}}</td>
-    <td class="font-center">{{word.jap_jaming}}</td>
-    <td class="font-center">{{word.jap_yisi}}</td>
-    <td class="font-center">{{word.jap_juzi}}</td>
-    <td class="btbg1 font-center"><button type="button" @click="deleteWord(index)">删除</button></td>
-  </tr-->
+    <td class="font-center" v-for="w_type in WORD_TYPES" v-if="w_type.id==word.word_type">{{w_type.name}}</td>
+    <td class="font-center">{{word.word_meaning}}</td>
+    <td class="font-center"></td>
+    <td class="font-center"></td>
+    <td class="font-center"></td>
+    <td class="font-center"></td>
+    <td class="font-center"></td>
+    <!--td class="btbg1 font-center"><button type="button" @click="deleteWord(index)">删除</button></td-->
+  </tr>
 </table>
 </div>
 <script src="vue.min.js"></script>
