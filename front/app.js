@@ -1,18 +1,5 @@
 //app.js
-
-new Vue({
-	el: "#app",
-	data: {
-		words: [],
-		newWord: {
-			origin_id: 1,
-			word_type: 1,
-			word_meaning: '痛苦的',
-			mutant_id: 1,
-			mutant_ids: [1,2,3,4],
-			sentence_ids: [],
-		},
-		WORD_TYPES:[
+const CONST_WORD_TYPES = [
 {
 	 id: 1,
 	 name: '名词',
@@ -58,19 +45,45 @@ new Vue({
 	}
 	]
 }
-]
+];
+new Vue({
+	el: "#app",
+	data: {
+		words: [],
+		newWord: {
+			origin_id: 1,
+			word_type: 1,
+			word_meaning: '痛苦的',
+			mutant_id: 1,
+			mutant_ids: [1,2,3,4],
+			sentence_ids: [],
+		},
+		WORD_TYPES: CONST_WORD_TYPES
+	},
+	computed: {
+		mutantTypes: function(){
+			var word_type = this.newWord.word_type;
+			for(obj in CONST_WORD_TYPES){
+				if(word_type == obj.id){
+				  return obj.mutants;
+				}
+			}
+			return [];
+		}
 	},
 	methods: {
 		getMutant: function(mutant_id){
 		  return {
-		    typeName: 'イ形容词',
 		    word: '痛い',
 	            fakeName: 'いたい',
-		    sentence: '痛いです。',
-		    translation: '好痛。' 
 		  };
 		},
-                getSentence: function(){ return {}; },
+                getSentence: function(){ 
+			return {
+				sentence: '痛いです。',
+				translation: '好痛。'
+			};
+		},
 		getWords: function(){
 			this.$http.get('/get_words').then(function(res){
 				this.words = res.body;
