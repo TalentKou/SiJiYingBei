@@ -94,13 +94,19 @@ new Vue({
 		},
 		//添加新原始单词
 		addWords: function(){
+			var newW = this.newWord;
+			if(newW.word_meaning.trim() == ''){
+				alert("请输入完整的单词意思!");
+				return;
+			}
 			this.$http.post('/add_words', 
-					{word_type: this.newWord.word_type,
-					 word_meaning: this.newWord.word_meaning}, 
+					{word_type: newW.word_type,
+					 word_meaning: newW.word_meaning}, 
 					{emulateJSON:true}).then(
 				function(res){
 					//this.newWord.word_type=1;
-					this.newWord.word_meaning='';
+					newW.word_meaning='';
+					this.getWords();
 					console.log(res.body);
 				},
 				function(res){
