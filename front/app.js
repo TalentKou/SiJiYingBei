@@ -53,9 +53,9 @@ new Vue({
 		newWord: {
 			origin_id: 1,
 			word_type: 1,
-			word_meaning: '痛苦的',
+			word_meaning: '',
 			mutant_id: 1,
-			mutant_ids: [1,2,3,4],
+			mutant_ids: [],
 			sentence_ids: [],
 		},
 		WORD_TYPES: CONST_WORD_TYPES
