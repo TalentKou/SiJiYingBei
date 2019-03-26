@@ -54,7 +54,16 @@ new Vue({
 			origin_id: 0,
 			word_type: 1,
 			word_meaning: '',
-			mutant_id: 1,
+			cur_mutant:  {
+			  mutant_id: 0,
+			  mutant_word: '',
+			  mutant_fake: ''	
+			},
+			cur_sentence: {
+			  sentence: 0,
+			  content: '',
+			  translation: ''	
+			},
 			mutant_ids: [],
 			sentence_ids: [],
 		},
@@ -72,7 +81,7 @@ new Vue({
 		}
 	},
 	methods: {
-		getMutant: function(mutant_id){
+		/*getMutant: function(mutant_id){
 		  return {
 		    word: '痛い',
 	            fakeName: 'いたい',
@@ -83,7 +92,7 @@ new Vue({
 				sentence: '痛いです。',
 				translation: '好痛。'
 			};
-		},
+		},*/
 		getWords: function(){
 			this.$http.get('/get_words').then(function(res){
 				var m_words = res.body;
