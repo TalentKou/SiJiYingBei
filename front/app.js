@@ -11,7 +11,54 @@ new Vue({
 			mutant_id: 1,
 			mutant_ids: [1,2,3,4],
 			sentence_ids: [],
-		}
+		},
+		WORD_TYPES:[
+{
+	 id: 1,
+	 name: '名词',
+	 mutants: []
+},
+{
+	id: 2,
+	name: '动词',
+	mutants: [
+	{
+		id: 1,
+		name: '基本型'
+	},
+	{
+		id: 2,
+		name: 'ます型'
+	},
+	{
+		id: 3,
+		name: 'て型'
+	},
+	{
+		id: 4,
+		name: 'た型'
+	},
+	{
+		id: 5,
+		name: 'ない型'
+	}
+	]
+},
+{
+	id: 3,
+	name: '形容词',
+	mutants: [
+	{
+		id: 1,
+		name: 'い形容词'
+	},
+	{
+		id: 2,
+		name: 'な形容词'
+	}
+	]
+}
+]
 	},
 	methods: {
 		getMutant: function(mutant_id){
