@@ -60,7 +60,11 @@
 	    <button type="button" @click="updateWord(index)">修改</button>
 	    <button type="button" @click="deleteWord(index)">删除</button>
 	  </td>
-    <td class="font-center"></td>
+     <td class="font-center">
+      <select name="m_id">
+        <option v-for="m_id in word.mutant_ids" :value="m_id">な形容词</option>
+      </select>	  
+    </td>
     <td class="font-center"></td>
     <td class="font-center"></td>
     <td class="font-center"></td>
