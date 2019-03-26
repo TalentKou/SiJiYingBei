@@ -1,4 +1,4 @@
-var mysql=require("mysql");
+var dbOption = new require("dbOption");
 var express=require("express");
 
 var bodyParser=require("body-parser");
@@ -6,17 +6,10 @@ var multer=require("multer");
 var upload=multer();// for parsing multipart/form-data
 
 var app=express();
-var connection=mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "159-357-Talent",
-  database: "WORDS"
-});
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-connection.connect();
 const mainDir = "/root/SiJiYingBei/";
 
 app.get("/", function(req, res){
@@ -36,48 +29,76 @@ app.get("*vue*", function(req, res){
   res.sendFile(mainDir + "node_modules/"+ moduleName  +"/dist/" + moduleName + ".min.js");
 });
 
+//请求获取所有单词信息
 app.get("/get_words", function(req, res){
   console.log("Somebody want words");
   
-  connection.query("SELECT * FROM jap_words", function(error, results, fields){
-    if(error){
-      console.log(error);
+  dbOption.selectMoreOrigin(function(err, results){
+    if(err === 0){
+      res.send(results);
       return;
     }
-    res.send(results);
-    //console.log(results);
-  });
-  
+    
+    res.send(err);
+    console.log(err);
+  });  
 });
 
+//请求删除某条单词信息
 app.get("/del_words/:jap_id", function(req, res){
   console.log("Somebody want delete words");
   
-  connection.query("DELETE FROM jap_words where jap_id=" + req.params.jap_id, function(error, result){
-    if(error){
-      console.log('[DELETE ERROR] - ',error.message);
+  dbOption.deleteOrigin(req.params.jap_id, function(err, results){
+    if(err === 0){
+      res.send(results);
       return;
     }
-    res.send(result);
-  });
-  
+    
+    res.send(err);
+    console.log(err);
+  });   
 });
 
+//请求插入新的单词信息
 app.post("/add_words", upload.array(), function(req, res){
-  console.log("Somebody want add words" + req.body.jap_hanzi);
-  var addSql='INSERT INTO jap_words(jap_hanzi, jap_jaming, jap_yisi, jap_juzi) VALUES(?,?,?,?)';
-  var d=req.body;
-  var addSqlParams=[d.jap_hanzi,d.jap_jaming,d.jap_yisi,d.jap_juzi];
-  connection.query(addSql, addSqlParams,
-                   function(error, result){
-                     if(error){
-                       console.log('[INSERT ERROR] - ',error.message);
-                       return;
-                     }
+  console.log("Somebody want add words" + req.body.word_meaning);
+  
+  dbOption.addOrigin({
+    word_type: req.body.word_type,
+    word_meaning: req.body.word_meaning,
+    mutant_ids: req.body.mutant_ids||[],
+    sentence_ids: req.body.sentence_ids||[],
+  }, function(err, results){
+    if(err === 0){
+      res.send(results);
+      return;
+    }
     
-                     console.log('INSERT ID:',result.insertId);
-                     res.send(result);
-  });
+    res.send(err);
+    console.log(err);
+  }); 
+});
+
+
+//请求修改相关单词信息
+app.post("/update_words", upload.array(), function(req, res){
+  console.log("Somebody want update words" + req.body.word_meaning);
+  
+  dbOption.updateOrigin ({
+    origin_id: req.body.origin_id,
+    word_type: req.body.word_type,
+    word_meaning: req.body.word_meaning,
+    mutant_ids: req.body.mutant_ids||[],
+    sentence_ids: req.body.sentence_ids||[],
+  }, function(err, results){
+    if(err === 0){
+      res.send(results);
+      return;
+    }
+    
+    res.send(err);
+    console.log(err);
+  }); 
 });
 
 app.listen(80);
