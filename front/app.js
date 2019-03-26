@@ -23,6 +23,7 @@ new Vue({
 		    translation: '好痛。' 
 		  };
 		},
+                getSentence: function(){ return {}; },
 		getWords: function(){
 			this.$http.get('/get_words').then(function(res){
 				this.words = res.body;
