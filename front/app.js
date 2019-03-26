@@ -51,7 +51,7 @@ new Vue({
 	data: {
 		words: [],
 		newWord: {
-			origin_id: 1,
+			origin_id: 0,
 			word_type: 1,
 			word_meaning: '',
 			mutant_id: 1,
@@ -92,13 +92,14 @@ new Vue({
                     console.log('请求失败处理');
                 });
 		},
-		//添加新原始单词
+		//添加新原始单词 或者 修改原始单词
 		addWords: function(){
 			var newW = this.newWord;
 			if(newW.word_meaning.trim() == ''){
 				alert("请输入完整的单词意思!");
 				return;
 			}
+			if(newW.origin_id == 0){
 			this.$http.post('/add_words', 
 					{word_type: newW.word_type,
 					 word_meaning: newW.word_meaning}, 
@@ -112,6 +113,31 @@ new Vue({
 				function(res){
 					console.log(res.status);
 				});
+			}else{
+			this.$http.post('/update_words', 
+					{origin_id: newW.origin_id,
+				         word_type: newW.word_type,
+					 word_meaning: newW.word_meaning}, 
+					{emulateJSON:true}).then(
+				function(res){
+					//this.newWord.word_type=1;
+					newW.origin_id=0;
+					newW.word_meaning='';
+					this.getWords();
+					console.log(res.body);
+				},
+				function(res){
+					console.log(res.status);
+				});
+			}
+			
+		},
+		//修改原始单词
+		updateWord: function(index){
+			var upWord = this.words[index];
+			this.newWord.origin_id = upWord.origin_id;
+			this.newWord.word_type = upWord.word_type;
+			this.newWord.word_meaning = upWord.word_meaning;
 		},
 		deleteWord: function(index){
 			var word = this.words[index];
