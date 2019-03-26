@@ -48,11 +48,11 @@
         <option v-for="m_type in mutantTypes" :value="m_type.id">{{m_type.name}}</option>
       </select>	  
     </td>
-    <td class="font-center">{{getMutant(newWord.mutant_id).word}}</td>
-    <td class="font-center">{{getMutant(newWord.mutant_id).fakeName}}</td>
+    <td class="font-center"><input v-model="newWord.cur_mutant.mutant_word"/></td>
+    <td class="font-center"><input v-model="newWord.cur_mutant.mutant_fake"/></td>
     <td class="font-center">变形操作</td>
-    <td class="font-center">{{getSentence(newWord.mutant_id).sentence}}</td>
-    <td class="font-center">{{getSentence(newWord.mutant_id).translation}}</td>
+    <td class="font-center"><input v-model="newWord.cur_sentence.content"/></td>
+    <td class="font-center"><input v-model="newWord.cur_sentence.translation"/></td>
   </tr>
   <tr v-for="(word, index) in words">
     <td class="btbg1 font-center">{{index+1}}</td>
