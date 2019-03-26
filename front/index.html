@@ -45,15 +45,15 @@
     </td>
     <td class="font-center"><input v-model="newWord.word_meaning"/></td>
     <td class="font-center">
-      <select v-model="newWord.mutant_type" name="mutant_type" 
-	      v-for="(value, key) in newWord.mutant_types">
-        <option value="key">{{value}}</option>
+      <select v-model="newWord.mutant_id" name="mutant_id" 
+	      v-for="m_id in newWord.mutant_ids">
+        <option value="m_id">{{getMutant(m_id).typeName}}</option>
       </select>	  
     </td>
-    <td class="font-center">{{newWord.mutant_word}}</td>
-    <td class="font-center">{{newWord.mutant_fakename}}</td>
-    <td class="font-center">{{newWord.mutant_sentence}}</td>
-    <td class="font-center">{{newWord.mutant_translation}}</td>
+    <td class="font-center">{{getMutant(newWord.mutant_id).word}}</td>
+    <td class="font-center">{{getMutant(newWord.mutant_id).fakeName}}</td>
+    <td class="font-center">{{getSentence(newWord.mutant_id).sentence}}</td>
+    <td class="font-center">{{getSentence(newWord.mutant_id).translation}}</td>
   </tr>
   <!--tr v-for="(word, index) in words">
     <td class="btbg1 font-center">{{index+1}}</td>
