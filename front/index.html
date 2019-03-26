@@ -30,6 +30,7 @@
     <td class="btbg font-center titfont">变形类型</td>
     <td class="btbg font-center titfont">变形单词</td>
     <td class="btbg font-center titfont">变形假名</td>
+    <td class="btbg font-center titfont">变形操作</td>
     <td class="btbg font-center titfont">变形句子</td>
     <td class="btbg font-center titfont">变形翻译</td>
   </tr>
@@ -49,6 +50,7 @@
     </td>
     <td class="font-center">{{getMutant(newWord.mutant_id).word}}</td>
     <td class="font-center">{{getMutant(newWord.mutant_id).fakeName}}</td>
+    <td class="font-center">变形操作</td>
     <td class="font-center">{{getSentence(newWord.mutant_id).sentence}}</td>
     <td class="font-center">{{getSentence(newWord.mutant_id).translation}}</td>
   </tr>
@@ -67,6 +69,7 @@
     </td>
     <td class="font-center"></td>
     <td class="font-center"></td>
+    <td class="font-center">变形操作</td>
     <td class="font-center"></td>
     <td class="font-center"></td>
     <!--td class="btbg1 font-center"><button type="button" @click="deleteWord(index)">删除</button></td-->
