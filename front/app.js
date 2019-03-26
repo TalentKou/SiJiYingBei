@@ -5,10 +5,12 @@ new Vue({
 	data: {
 		words: [],
 		newWord: {
-			jap_hanzi: '',
-			jap_jaming: '',
-			jap_yisi: '',
-			jap_juzi: '',
+			origin_id: 0,
+			word_type: 1,
+			word_meaning: '',
+			mutant_id: 0,
+			mutant_ids: [],
+			sentence_ids: [],
 		}
 	},
 	methods: {
