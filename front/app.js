@@ -92,23 +92,15 @@ new Vue({
                     console.log('请求失败处理');
                 });
 		},
+		//添加新原始单词
 		addWords: function(){
-			for(attr in this.newWord){
-			    if(this.newWord[attr].trim() == ""){
-			        alert("请补全字段！");
-				return;
-			    }
-			}
 			this.$http.post('/add_words', 
-					this.newWord, 
+					{word_type: this.newWord.word_type,
+					 word_meaning: this.newWord.word_meaning}, 
 					{emulateJSON:true}).then(
 				function(res){
-					this.newWord={
-			jap_hanzi: '',
-			jap_jaming: '',
-			jap_yisi: '',
-			jap_juzi: '',
-		}
+					//this.newWord.word_type=1;
+					this.newWord.word_meaning='';
 					console.log(res.body);
 				},
 				function(res){
