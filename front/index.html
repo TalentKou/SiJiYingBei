@@ -24,26 +24,45 @@
   <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#cccccc" class="tabtop13" align="center">
   <tr>
     <td class="btbg font-center titfont">序号</td>
-    <td class="btbg font-center titfont">汉字</td>
-    <td class="btbg font-center titfont">假名</td>
+    <td class="btbg font-center titfont">词性</td>
     <td class="btbg font-center titfont">意思</td>
-    <td colspan="2" class="btbg font-center titfont">句子</td>
+    <td class="btbg font-center titfont">变形类型</td>
+    <td class="btbg font-center titfont">变形单词</td>
+    <td class="btbg font-center titfont">变形假名</td>
+    <td class="btbg font-center titfont">变形句子</td>
+    <td class="btbg font-center titfont">变形翻译</td>
   </tr>
   <tr class="wd-add">
     <td class="btbg1 font-center"><button type="button" @click="addWords">添加</button></td>
-    <td class="font-center"><input v-model="newWord.jap_hanzi"/></td>
-    <td class="font-center"><input v-model="newWord.jap_jaming"/></td>
-    <td class="font-center"><input v-model="newWord.jap_yisi"/></td>
-    <td colspan="2" class="font-center"><input v-model="newWord.jap_juzi"/></td>
+    <td class="font-center">
+      <select v-model="newWord.word_type" name="word_type">
+        <option value="1">名词</option>
+        <option value="2">动词</option>
+        <option value="3">形容词</option>
+        <option value="4">副词</option>
+        <option value="5">助词</option>
+      </select>	  
+    </td>
+    <td class="font-center"><input v-model="newWord.word_meaning"/></td>
+    <td class="font-center">
+      <select v-model="newWord.mutant_type" name="mutant_type" 
+	      v-for="(value, key) in newWord.mutant_types">
+        <option value="key">{{value}}</option>
+      </select>	  
+    </td>
+    <td class="font-center">{{newWord.mutant_word}}</td>
+    <td class="font-center">{{newWord.mutant_fakename}}</td>
+    <td class="font-center">{{newWord.mutant_sentence}}</td>
+    <td class="font-center">{{newWord.mutant_translation}}</td>
   </tr>
-  <tr v-for="(word, index) in words">
+  <!--tr v-for="(word, index) in words">
     <td class="btbg1 font-center">{{index+1}}</td>
     <td class="font-center">{{word.jap_hanzi}}</td>
     <td class="font-center">{{word.jap_jaming}}</td>
     <td class="font-center">{{word.jap_yisi}}</td>
     <td class="font-center">{{word.jap_juzi}}</td>
     <td class="btbg1 font-center"><button type="button" @click="deleteWord(index)">删除</button></td>
-  </tr>
+  </tr-->
 </table>
 </div>
 <script src="vue.min.js"></script>
