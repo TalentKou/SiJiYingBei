@@ -85,7 +85,8 @@ new Vue({
 			};
 		},
 		getWords: function(){
-			this.$http.get('/get_words').then(function(res){
+			this.$http.get('/get_words').then(function(err, res){
+                    console.log(err);    
 				this.words = res.body;
                     console.log(res);    
                 },function(){
