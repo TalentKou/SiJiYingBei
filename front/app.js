@@ -5,15 +5,24 @@ new Vue({
 	data: {
 		words: [],
 		newWord: {
-			origin_id: 0,
+			origin_id: 1,
 			word_type: 1,
-			word_meaning: '',
-			mutant_id: 0,
-			mutant_ids: [],
+			word_meaning: '痛苦的',
+			mutant_id: 1,
+			mutant_ids: [1],
 			sentence_ids: [],
 		}
 	},
 	methods: {
+		getMutant: function(mutant_id){
+		  return {
+		    typeName: 'イ形容词',
+		    word: '痛い',
+	            fakeName: 'いたい',
+		    sentence: '痛いです。',
+		    translation: '好痛。' 
+		  };
+		},
 		getWords: function(){
 			this.$http.get('/get_words').then(function(res){
 				this.words = res.body;
