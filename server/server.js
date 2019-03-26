@@ -35,7 +35,7 @@ app.get("/get_words", function(req, res){
   
   dbOption.selectMoreOrigin(function(err, results){
     if(err === 0){
-      res.send(0, results);
+      res.send(results);
       return;
     }
     
@@ -50,7 +50,7 @@ app.get("/del_words/:jap_id", function(req, res){
   
   dbOption.deleteOrigin(req.params.jap_id, function(err, results){
     if(err === 0){
-      res.send(0, results);
+      res.send(results);
       return;
     }
     
@@ -70,7 +70,7 @@ app.post("/add_words", upload.array(), function(req, res){
     sentence_ids: req.body.sentence_ids||[],
   }, function(err, results){
     if(err === 0){
-      res.send(0, results);
+      res.send(results);
       return;
     }
     
@@ -92,7 +92,7 @@ app.post("/update_words", upload.array(), function(req, res){
     sentence_ids: req.body.sentence_ids||[],
   }, function(err, results){
     if(err === 0){
-      res.send(0, results);
+      res.send(results);
       return;
     }
     
