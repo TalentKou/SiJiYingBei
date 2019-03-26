@@ -1,4 +1,4 @@
-var dbOption = new require("./dbOption");
+var dbOption = new (require("./dbOption"))();
 var express=require("express");
 
 var bodyParser=require("body-parser");
