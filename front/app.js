@@ -55,12 +55,12 @@ new Vue({
 			word_type: 1,
 			word_meaning: '',
 			cur_mutant:  {
-			  mutant_id: 0,
+			  mutant_id: 1,
 			  mutant_word: '',
 			  mutant_fake: ''	
 			},
 			cur_sentence: {
-			  sentence: 0,
+			  sentence_id: 1,
 			  content: '',
 			  translation: ''	
 			},
