@@ -36,17 +36,13 @@
     <td class="btbg1 font-center"><button type="button" @click="addWords">添加</button></td>
     <td class="font-center">
       <select v-model="newWord.word_type" name="word_type">
-        <option value="1">名词</option>
-        <option value="2">动词</option>
-        <option value="3">形容词</option>
-        <option value="4">副词</option>
-        <option value="5">助词</option>
+        <option v-for="w_type in WORD_TYPES" :value="w_type.id">{{w_type.name}}</option>
       </select>	  
     </td>
     <td class="font-center"><input v-model="newWord.word_meaning"/></td>
     <td class="font-center">
       <select v-model="newWord.mutant_id" name="mutant_id">
-        <option v-for="m_id in newWord.mutant_ids" :value="m_id">{{getMutant(m_id).typeName}}</option>
+        <option v-for="m_type in mutantTypes" :value="m_type.id">{{m_type.name}}</option>
       </select>	  
     </td>
     <td class="font-center">{{getMutant(newWord.mutant_id).word}}</td>
