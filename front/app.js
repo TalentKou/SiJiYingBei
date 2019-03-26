@@ -86,7 +86,11 @@ new Vue({
 		},
 		getWords: function(){
 			this.$http.get('/get_words').then(function(res){
-				this.words = res.body;
+				var m_words = res.body;
+				for(var i in m_words){
+				  m_words[i] = m_words[i].mutant_ids.split(',')||[];
+				}
+				this.words = m_words;
                     console.log(res);    
                 },function(){
                     console.log('请求失败处理');
