@@ -26,6 +26,7 @@
     <td class="btbg font-center titfont">序号</td>
     <td class="btbg font-center titfont">词性</td>
     <td class="btbg font-center titfont">意思</td>
+    <td class="btbg font-center titfont">原型操作</td>
     <td class="btbg font-center titfont">变形类型</td>
     <td class="btbg font-center titfont">变形单词</td>
     <td class="btbg font-center titfont">变形假名</td>
@@ -40,6 +41,7 @@
       </select>	  
     </td>
     <td class="font-center"><input v-model="newWord.word_meaning"/></td>
+    <td class="font-center"></td>
     <td class="font-center">
       <select v-model="newWord.mutant_id" name="mutant_id">
         <option v-for="m_type in mutantTypes" :value="m_type.id">{{m_type.name}}</option>
@@ -58,6 +60,7 @@
 	    <button type="button" @click="updateWord(index)">修改</button>
 	    <button type="button" @click="deleteWord(index)">删除</button>
 	  </td>
+    <td class="font-center"></td>
     <td class="font-center"></td>
     <td class="font-center"></td>
     <td class="font-center"></td>
