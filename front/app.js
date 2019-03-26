@@ -88,7 +88,7 @@ new Vue({
 			this.$http.get('/get_words').then(function(res){
 				var m_words = res.body;
 				for(var i in m_words){
-				  m_words[i] = m_words[i].mutant_ids.split(',')||[];
+				  m_words[i].mutant_ids = m_words[i].mutant_ids.split(',')||[];
 				}
 				this.words = m_words;
                     console.log(res);    
