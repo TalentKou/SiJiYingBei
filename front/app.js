@@ -63,9 +63,9 @@ new Vue({
 	computed: {
 		mutantTypes: function(){
 			var word_type = this.newWord.word_type;
-			for(obj in CONST_WORD_TYPES){
-				if(word_type == obj.id){
-				  return obj.mutants;
+			for(i in CONST_WORD_TYPES){
+				if(word_type == CONST_WORD_TYPES[i].id){
+				  return CONST_WORD_TYPES[i].mutants;
 				}
 			}
 			return [];
