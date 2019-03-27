@@ -28,7 +28,7 @@ new Vue({
 	directives: {
 	  href: {
 	    inserted: function(el, binding){
-	      el.href = binding.url + binding.param;
+	      el.href = binding.value.url + binding.value.param;
 	    }
 	  }
 	},
