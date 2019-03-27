@@ -44,7 +44,7 @@
     <td class="font-center"><input v-model="newWord.word_meaning"/></td>
     <td class="font-center"><button type="button" @click="addWords">{{newWord.origin_id == 0 ? '添加' : '修改'}}</button></td>
     <td class="font-center">
-      <select v-model="newWord.cur_mutant.mutant_id" name="cur_mutant.mutant_id">
+      <select v-model="newWord.cur_mutant.mutant_type" name="cur_mutant.mutant_type">
         <option v-for="m_type in mutantTypes" :value="m_type.id">{{m_type.name}}</option>
       </select>	  
     </td>
