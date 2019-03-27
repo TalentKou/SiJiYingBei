@@ -106,6 +106,101 @@ function dbOption(){
     callback(0, result);
    });
   };
+
+    //添加变形单词数据
+  /*data = {
+    origin_id: 1,
+    mutant_type: 1,
+    mutant_word: '私',
+    mutant_fake: 'わたし',
+    mutant_sentence_ids: [0001, 0002, ...],
+  }*/
+  this.addMutant = function(data, callback){
+    var addSql='INSERT INTO mutant_table(origin_id, mutant_type, mutant_word, mutant_fake, mutant_sentence_ids) VALUES(?,?,?,?,?)';
+    var addSqlParams=[data.origin_id,
+    data.mutant_type,
+    data.mutant_word,
+    data.mutant_fake,
+    data.mutant_sentence_ids.join(","),];
+    connection.query(addSql, addSqlParams,
+                   function(error, result){
+                     if(error){
+                       console.log('[INSERT ERROR] - ',error.message);
+                       callback(error);
+                       return;
+                     }
+    
+                     console.log('INSERT ID:',result.insertId);
+                     callback(0, result);
+                   });
+  };
+
+    //删除变形单词数据
+    this.deleteMutant = function(mutant_id, callback){
+      connection.query("DELETE FROM mutant_table where mutant_id=" + mutant_id, function(error, result){
+      if(error){
+        console.log('[DELETE ERROR] - ',error.message);
+        callback(error);
+        return;
+      }
+      console.log('DELETE SUCCEED');
+      callback(0, result);
+     });
+    };
+
+    //修改变形单词数据
+  /*data = {
+    mutant_id: 1,
+    mutant_type: 1,
+    mutant_word: '私',
+    mutant_fake: 'わたし',
+    mutant_sentence_ids: [0001, 0002, ...],
+  }*/
+  this.updateMutant = function(data, callback){
+    var modSql = 'UPDATE mutant_table SET mutant_type = ?,mutant_word = ?,mutant_fake = ?,mutant_sentence_ids = ? WHERE mutant_id = ?';
+    var modSqlParams = [data.mutant_type, 
+    data.mutant_word,
+    data.mutant_fake,
+    data.mutant_sentence_ids.join(','),
+    data.mutant_id];
+    //改
+    connection.query(modSql, modSqlParams, function (err, result) {
+      if(err){
+         console.log('[UPDATE ERROR] - ',err.message);
+         callback(err);
+         return;
+      }        
+      
+      console.log('UPDATE affectedRows',result.affectedRows);
+      callback(0, result);
+     });
+  };
+
+    //查询单条变形单词数据
+    this.selectOneMutant = function(mutant_id, callback){
+      connection.query("SELECT * FROM mutant_table where mutant_id=" + mutant_id, function(error, result){
+      if(error){
+        console.log('[SELECT ERROR] - ',error.message);
+        callback(error);
+        return;
+      }
+      
+      callback(0, result);
+     });
+    };
+    
+    //查询相应原始单词的多条变形单词数据
+    this.getMorMutsByOrgn = function(origin_id, callback){
+      connection.query("SELECT * FROM mutant_table where origin_id=" + origin_id, function(error, result){
+      if(error){
+        console.log('[SELECT ERROR] - ',error.message);
+        callback(error);
+        return;
+      }
+      
+      callback(0, result);
+     });
+    };
 }
 
 module.exports = dbOption;
