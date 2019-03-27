@@ -65,8 +65,8 @@ function dbOption(){
     var modSql = 'UPDATE origin_table SET word_type = ?,word_meaning = ?,mutant_ids = ?,sentence_ids = ? WHERE origin_id = ?';
     var modSqlParams = [data.word_type, 
     data.word_meaning,
-    ((data.mutant_ids instanceOf String) ? data.mutant_ids : data.mutant_ids.join(',')),
-    (data.sentence_ids instanceOf String) ? data.sentence_ids : data.sentence_ids.join(',')),
+    ((data.mutant_ids instanceof String) ? data.mutant_ids : data.mutant_ids.join(',')),
+    (data.sentence_ids instanceof String) ? data.sentence_ids : data.sentence_ids.join(',')),
     data.origin_id];
     //改
     connection.query(modSql, modSqlParams, function (err, result) {
