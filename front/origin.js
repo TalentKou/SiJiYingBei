@@ -25,6 +25,13 @@ new Vue({
 		},
 		WORD_TYPES: CONST_WORD_TYPES
 	},
+	directives: {
+	  href: {
+	    update: function(el, binding){
+	      el.href = binding.url + binding.param;
+	    }
+	  }
+	},
 	methods: {
 		//获取大量原始单词
 		getWords: function(){
