@@ -1,199 +1,206 @@
-var dbOption = new (require("./dbOption"))();
-var express=require("express");
+//数据库操作模块
+var mysql=require("mysql");
 
-var bodyParser=require("body-parser");
-var multer=require("multer");
-var upload=multer();// for parsing multipart/form-data
+var connection=mysql.createConnection({
+  host: "localhost",
+  user: "root",
+  password: "159-357-Talent",
+  database: "japanese_db"
+});
 
-var app=express();
+connection.connect();
 
-app.use(bodyParser.json()); // for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-
-const mainDir = "/root/SiJiYingBei/";
-
-app.get("/", function(req, res){
-  console.log("Somebody accessed" + req.url);
+function dbOption(){
+  
+  //原始单词表操作方法
  
-  res.sendFile(mainDir + "front/index.html");
-});
-
-app.get("*app.*", function(req, res){
-  console.log("request app.*" + req.url);
-  res.sendFile(mainDir + "front/" + req.url);
-});
-
-app.get("*vue*", function(req, res){
-  console.log("request vue*" + req.url);
-  var moduleName = req.url.split(".")[0];
-  res.sendFile(mainDir + "node_modules/"+ moduleName  +"/dist/" + moduleName + ".min.js");
-});
-
-//请求获取所有单词信息
-app.get("/get_words", function(req, res){
-  console.log("Somebody want words");
+  //添加原始数据
+  /*data = {
+    word_type: 1,
+    word_meaning: '痛苦的',
+    mutant_ids: [0001, 0002, ...],
+    sentence_ids: [0001, 0002, ...],
+  }*/
+  this.addOrigin = function(data, callback){
+    var addSql='INSERT INTO origin_table(word_type, word_meaning, mutant_ids, sentence_ids) VALUES(?,?,?,?)';
+    var addSqlParams=[data.word_type,
+    data.word_meaning,
+    data.mutant_ids.join(","),
+    data.sentence_ids.join(",")];
+    connection.query(addSql, addSqlParams,
+                   function(error, result){
+                     if(error){
+                       console.log('[INSERT ERROR] - ',error.message);
+                       callback(error);
+                       return;
+                     }
+    
+                     console.log('INSERT ID:',result.insertId);
+                     callback(0, result);
+                   });
+  };
   
-  dbOption.selectMoreOrigin(function(err, results){
-    if(err === 0){
-      res.send(results);
+  //删除原始数据
+  this.deleteOrigin = function(origin_id, callback){
+    connection.query("DELETE FROM origin_table where origin_id=" + origin_id, function(error, result){
+    if(error){
+      console.log('[DELETE ERROR] - ',error.message);
+      callback(error);
+      return;
+    }
+    console.log('DELETE SUCCEED');
+    callback(0, result);
+   });
+  };
+  
+  //修改原始数据
+  /*data = {
+    origin_id: 1,
+    word_type: 1,
+    word_meaning: '痛苦的',
+    mutant_ids: [0001, 0002, ...],
+    sentence_ids: [0001, 0002, ...],
+  }*/
+  this.updateOrigin = function(data, callback){
+    var modSql = 'UPDATE origin_table SET word_type = ?,word_meaning = ?,mutant_ids = ?,sentence_ids = ? WHERE origin_id = ?';
+    var modSqlParams = [data.word_type, 
+    data.word_meaning,
+    data.mutant_ids.join(','),
+    data.sentence_ids.join(','),
+    data.origin_id];
+    //改
+    connection.query(modSql, modSqlParams, function (err, result) {
+      if(err){
+         console.log('[UPDATE ERROR] - ',err.message);
+         callback(err);
+         return;
+      }        
+      
+      console.log('UPDATE affectedRows',result.affectedRows);
+      callback(0, result);
+     });
+  };
+  
+  //查询单条原始数据
+  this.selectOneOrigin = function(origin_id, callback){
+    connection.query("SELECT * FROM origin_table where origin_id=" + origin_id, function(error, result){
+    if(error){
+      console.log('[SELECT ERROR] - ',error.message);
+      callback(error);
       return;
     }
     
-    res.send(err);
-    console.log(err);
-  });  
-});
-
-//请求删除某条单词信息
-app.get("/del_words/:jap_id", function(req, res){
-  console.log("Somebody want delete words");
+    callback(0, result);
+   });
+  };
   
-  dbOption.deleteOrigin(req.params.jap_id[1], function(err, results){
-    if(err === 0){
-      res.send(results);
+  //查询多条原始数据
+  this.selectMoreOrigin = function(callback){
+    connection.query("SELECT * FROM origin_table", function(error, result){
+    if(error){
+      console.log('[SELECT ERROR] - ',error.message);
+      callback(error);
       return;
     }
     
-    res.send(err);
-    console.log(err);
-  });   
-});
+    callback(0, result);
+   });
+  };
 
-//请求插入新的单词信息
-app.post("/add_words", upload.array(), function(req, res){
-  console.log("Somebody want add words" + req.body.word_meaning);
-  
-  dbOption.addOrigin({
-    word_type: req.body.word_type,
-    word_meaning: req.body.word_meaning,
-    mutant_ids: req.body.mutant_ids||[],
-    sentence_ids: req.body.sentence_ids||[],
-  }, function(err, results){
-    if(err === 0){
-      res.send(results);
-      return;
-    }
+    //添加变形单词数据
+  /*data = {
+    origin_id: 1,
+    mutant_type: 1,
+    mutant_word: '私',
+    mutant_fake: 'わたし',
+    mutant_sentence_ids: [0001, 0002, ...],
+  }*/
+  this.addMutant = function(data, callback){
+    var addSql='INSERT INTO mutant_table(origin_id, mutant_type, mutant_word, mutant_fake, mutant_sentence_ids) VALUES(?,?,?,?,?)';
+    var addSqlParams=[data.origin_id,
+    data.mutant_type,
+    data.mutant_word,
+    data.mutant_fake,
+    data.mutant_sentence_ids.join(","),];
+    connection.query(addSql, addSqlParams,
+                   function(error, result){
+                     if(error){
+                       console.log('[INSERT ERROR] - ',error.message);
+                       callback(error);
+                       return;
+                     }
     
-    res.send(err);
-    console.log(err);
-  }); 
-});
+                     console.log('INSERT ID:',result.insertId);
+                     callback(0, result);
+                   });
+  };
 
+    //删除变形单词数据
+    this.deleteMutant = function(mutant_id, callback){
+      connection.query("DELETE FROM mutant_table where mutant_id=" + mutant_id, function(error, result){
+      if(error){
+        console.log('[DELETE ERROR] - ',error.message);
+        callback(error);
+        return;
+      }
+      console.log('DELETE SUCCEED');
+      callback(0, result);
+     });
+    };
 
-//请求修改相关单词信息
-app.post("/update_words", upload.array(), function(req, res){
-  console.log("Somebody want update words" + req.body.word_meaning);
-  
-  dbOption.updateOrigin ({
-    origin_id: req.body.origin_id,
-    word_type: req.body.word_type,
-    word_meaning: req.body.word_meaning,
-    mutant_ids: req.body.mutant_ids||[],
-    sentence_ids: req.body.sentence_ids||[],
-  }, function(err, results){
-    if(err === 0){
-      res.send(results);
-      return;
-    }
+    //修改变形单词数据
+  /*data = {
+    mutant_id: 1,
+    mutant_type: 1,
+    mutant_word: '私',
+    mutant_fake: 'わたし',
+    mutant_sentence_ids: [0001, 0002, ...],
+  }*/
+  this.updateMutant = function(data, callback){
+    var modSql = 'UPDATE mutant_table SET mutant_type = ?,mutant_word = ?,mutant_fake = ?,mutant_sentence_ids = ? WHERE mutant_id = ?';
+    var modSqlParams = [data.mutant_type, 
+    data.mutant_word,
+    data.mutant_fake,
+    data.mutant_sentence_ids.join(','),
+    data.mutant_id];
+    //改
+    connection.query(modSql, modSqlParams, function (err, result) {
+      if(err){
+         console.log('[UPDATE ERROR] - ',err.message);
+         callback(err);
+         return;
+      }        
+      
+      console.log('UPDATE affectedRows',result.affectedRows);
+      callback(0, result);
+     });
+  };
+
+    //查询单条变形单词数据
+    this.selectOneMutant = function(mutant_id, callback){
+      connection.query("SELECT * FROM mutant_table where mutant_id=" + mutant_id, function(error, result){
+      if(error){
+        console.log('[SELECT ERROR] - ',error.message);
+        callback(error);
+        return;
+      }
+      
+      callback(0, result);
+     });
+    };
     
-    res.send(err);
-    console.log(err);
-  }); 
-});
+    //查询相应原始单词的多条变形单词数据
+    this.getMorMutsByOrgn = function(origin_id, callback){
+      connection.query("SELECT * FROM mutant_table where origin_id=" + origin_id, function(error, result){
+      if(error){
+        console.log('[SELECT ERROR] - ',error.message);
+        callback(error);
+        return;
+      }
+      
+      callback(0, result);
+     });
+    };
+}
 
-/*****************************/
-//以下是操作变形单词表的接口内容
-/*****************************/
-
-//请求获取相应原始单词的所有变形单词信息
-app.get("/get_muts_by_orgn/:origin_id", function(req, res){
-  console.log("Somebody want mutants for some origin word");
-  
-  dbOption.getMorMutsByOrgn(req.params.origin_id[1], function(err, results){
-    if(err === 0){
-      res.send(results);
-      return;
-    }
-    
-    res.send(err);
-    console.log(err);
-  });  
-});
-
-//请求获取某条变形单词信息
-app.get("/get_mutant/:mutant_id", function(req, res){
-  console.log("Somebody want some mutant word");
-  
-  dbOption.selectOneMutant(req.params.mutant_id[1], function(err, results){
-    if(err === 0){
-      res.send(results);
-      return;
-    }
-    
-    res.send(err);
-    console.log(err);
-  });  
-});
-
-//请求删除某条变形单词信息
-app.get("/del_mutant/:mutant_id", function(req, res){
-  console.log("Somebody want delete some mutant word");
-  
-  dbOption.deleteMutant(req.params.mutant_id[1], function(err, results){
-    if(err === 0){
-      res.send(results);
-      return;
-    }
-    
-    res.send(err);
-    console.log(err);
-  });   
-});
-
-//请求插入新的变形单词信息
-app.post("/add_mutant", upload.array(), function(req, res){
-  console.log("Somebody want add mutant" + req.body.mutant_word);
-  
-  dbOption.addMutant({
-    origin_id: req.body.origin_id,
-    mutant_type: req.body.mutant_type,
-    mutant_word: req.body.mutant_word,
-    mutant_fake: req.body.mutant_fake,
-    mutant_sentence_ids: req.body.mut_sentc_ids||[],
-  }, function(err, results){
-    if(err === 0){
-      res.send(results);
-      return;
-    }
-    
-    res.send(err);
-    console.log(err);
-  }); 
-});
-
-
-//请求修改相关变形单词信息
-app.post("/update_mutant", upload.array(), function(req, res){
-  console.log("Somebody want update some mutant" + req.body.mutant_word);
-  
-  dbOption.updateMutant ({
-    mutant_id: req.body.mutant_id,
-    mutant_type: req.body.mutant_type,
-    mutant_word: req.body.mutant_word,
-    mutant_fake: req.body.mutant_fake,
-    mutant_sentence_ids: req.body.mut_sentc_ids||[],
-  }, function(err, results){
-    if(err === 0){
-      res.send(results);
-      return;
-    }
-    
-    res.send(err);
-    console.log(err);
-  }); 
-});
-
-app.listen(80);
-
-console.log("47.104.67.32");
-
+module.exports = dbOption;
