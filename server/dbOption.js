@@ -122,6 +122,7 @@ function dbOption(){
     data.mutant_word,
     data.mutant_fake,
     data.mutant_sentence_ids.join(","),];
+    var that = this;
     connection.query(addSql, addSqlParams,
                    function(error, result){
                      if(error){
@@ -131,6 +132,13 @@ function dbOption(){
                      }
     
                      console.log('INSERT ID:',result.insertId);
+
+                     that.selectOneOrigin(addSqlParams[0], function(err, res){
+                       if(err === 0){
+                         console.log("what the hell +++++++ " + res.body);
+                       }
+                     });
+
                      callback(0, result);
                    });
   };
