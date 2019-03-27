@@ -15,11 +15,15 @@ const mainDir = "/root/SiJiYingBei/";
 app.get("/", function(req, res){
   console.log("Somebody accessed" + req.url);
  
-  res.sendFile(mainDir + "front/index.html");
+  res.sendFile(mainDir + "front/origin.html");// index.html");
 });
 
 app.get("*app.*", function(req, res){
   console.log("request app.*" + req.url);
+  res.sendFile(mainDir + "front/" + req.url);
+});
+app.get("*origin.*", function(req, res){
+  console.log("request origin.*" + req.url);
   res.sendFile(mainDir + "front/" + req.url);
 });
 
