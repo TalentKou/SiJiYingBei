@@ -44,7 +44,7 @@
     <td class="font-center">
 	    <button type="button" @click="updateWord(index)">修改</button>
 	    <button type="button" @click="deleteWord(index)">删除</button>
-	    <a href="mutant.html" target="_blank">查看</a>
+	    <a v-href="{url: 'mutant.html?originId=', param: word.origin_id}" target="_blank">查看</a>
 	  </td>
   </tr>
 </table>
