@@ -135,7 +135,8 @@ function dbOption(){
 
                      that.selectOneOrigin(addSqlParams[0], function(err, res){
                        if(err === 0){
-                         console.log("what the hell +++++++ " + res[0]);
+                         var originData = res[0];
+                         console.log(originData.mutant_ids);
                        }
                      });
 
