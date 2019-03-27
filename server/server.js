@@ -48,7 +48,7 @@ app.get("/get_words", function(req, res){
 app.get("/del_words/:jap_id", function(req, res){
   console.log("Somebody want delete words");
   
-  dbOption.deleteOrigin(req.params.jap_id[1], function(err, results){
+  dbOption.deleteOrigin(req.params.jap_id.split(":")[1], function(err, results){
     if(err === 0){
       res.send(results);
       return;

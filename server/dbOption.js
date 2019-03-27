@@ -42,13 +42,14 @@ function dbOption(){
   
   //删除原始数据
   this.deleteOrigin = function(origin_id, callback){
+    console.log("DELETE origin word origin_id=" + origin_id);
     connection.query("DELETE FROM origin_table where origin_id=" + origin_id, function(error, result){
     if(error){
       console.log('[DELETE ERROR] - ',error.message);
       callback(error);
       return;
     }
-    console.log('DELETE SUCCEED');
+    console.log('DELETE SUCCEED +' + error);
     callback(0, result);
    });
   };
@@ -65,8 +66,8 @@ function dbOption(){
     var modSql = 'UPDATE origin_table SET word_type = ?,word_meaning = ?,mutant_ids = ?,sentence_ids = ? WHERE origin_id = ?';
     var modSqlParams = [data.word_type, 
     data.word_meaning,
-    ((data.mutant_ids instanceof String) ? data.mutant_ids : data.mutant_ids.join(',')),
-    ((data.sentence_ids instanceof String) ? data.sentence_ids : data.sentence_ids.join(',')),
+    ((data.mutant_ids instanceof Array) ? data.mutant_ids.join(',') : data.mutant_ids),
+    ((data.sentence_ids instanceof Array) ? data.sentence_ids.join(',') : data.sentence_ids),
     data.origin_id];
     //改
     connection.query(modSql, modSqlParams, function (err, result) {
@@ -139,8 +140,13 @@ function dbOption(){
                        if(err === 0){
                          var mutant_ids = res[0].mutant_ids;
                          if(mutant_ids.indexOf(insertMutId) < 0){
-                           mutant_ids += "," + insertMutId;
+                           if(mutant_ids.trim() == ""){
+                             mutant_ids += insertMutId;
+                           }else{
+                             mutant_ids += "," + insertMutId;
+                           } 
                            res[0].mutant_ids = mutant_ids;
+                           
                            that.updateOrigin(res[0], function(){});
                          }
                          console.log(mutant_ids);
