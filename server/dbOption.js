@@ -66,7 +66,7 @@ function dbOption(){
     var modSqlParams = [data.word_type, 
     data.word_meaning,
     ((data.mutant_ids instanceof String) ? data.mutant_ids : data.mutant_ids.join(',')),
-    (data.sentence_ids instanceof String) ? data.sentence_ids : data.sentence_ids.join(',')),
+    ((data.sentence_ids instanceof String) ? data.sentence_ids : data.sentence_ids.join(',')),
     data.origin_id];
     //改
     connection.query(modSql, modSqlParams, function (err, result) {
