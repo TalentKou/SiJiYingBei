@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<title>数据管理系统0.1</title>
+<link rel="stylesheet" type="text/css" href="app.css" />
+</head>
+<body>
+<div id="sentence">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
+    <tr>
+      <td colspan="2" align="center" class="biaoti" height="60">句子表</td>
+    </tr>
+    <tr>
+      <td align="left" height="25">
+	<button type="button" @click="getSentences">刷新列表</button>
+      </td>
+      <td align="right" height="25">2017-01-02---2017-05-02</td>
+    </tr>
+  </table>
+  
+  <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#cccccc" class="tabtop13" align="center">
+  <tr>
+    <td class="btbg font-center titfont">序号</td>
+    <td class="btbg font-center titfont">词性</td>
+    <td class="btbg font-center titfont">意思</td>
+    <td class="btbg font-center titfont">变形类型</td>
+    <td class="btbg font-center titfont">变形单词</td>
+    <td class="btbg font-center titfont">变形假名</td>
+    <td class="btbg font-center titfont">变形句子</td>
+    <td class="btbg font-center titfont">变形意思</td>
+    <td class="btbg font-center titfont">句子操作</td>
+  </tr>
+  <tr class="wd-add">
+    <td class="btbg1 font-center"></td>
+    <td class="font-center">
+        <span v-for="w_type in WORD_TYPES" v-if="w_type.id == originWord.word_type">{{w_type.name}}</span>
+    </td>
+    <td class="font-center">{{originWord.word_meaning}}</td>
+    <td class="font-center">
+        <span v-for="m_type in mutantTypes" v-if="m_type.id == mutantWord.mutant_type">{{m_type.name}}</span>
+    </td>
+    <td class="font-center">{{mutantWord.mutant_word}}</td>
+    <td class="font-center">{{mutantWord.mutant_fake}}</td>
+    <td class="font-center"><input v-model="newSentence.content"/></td>
+    <td class="font-center"><input v-model="newSentence.translation"/></td>
+    <td class="font-center"><button type="button" @click="addSentence">{{newSentence.sentence_id == 0 ? '添加' : '修改'}}</button></td>
+  </tr>
+ <tr v-for="(sentc, index) in sentences">
+    <td class="btbg1 font-center">{{index+1}}</td>
+    <td colspan="4" class="font-center">{{sentc.content}}</td>
+    <td colspan="3" class="font-center">{{sentc.translation}}</td>
+    <td class="font-center">
+	    <button type="button" @click="updateSentence(index)">修改</button>
+	    <button type="button" @click="deleteSentence(index)">删除</button>
+    </td>
+  </tr>
+</table>
+</div>
+<script src="vue.min.js"></script>
+<script src="vue-resource.min.js"></script>
+<script src="sentence.js"></script>
+</body>
+</html>
