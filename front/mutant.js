@@ -62,6 +62,7 @@ new Vue({
 			mutant_fake: '',
 			mut_sentc_ids: []
 		},
+		mutants: [],
 		WORD_TYPES: CONST_WORD_TYPES
 	},
 	beforeMount: function(){
@@ -99,7 +100,22 @@ new Vue({
 		/************************************/
 
 		//获取大量变形单词
-		getMutants: function(){},
+		getMutants: function(){
+		this.$http.get('/get_muts_by_orgn:' + this.originWord.origin_id).then(function(res){
+				var m_mutants = res.body;
+				for(var i in m_mutants){
+                                  if(m_mutants[i].mutant_sentence_ids.trim() == ""){
+                                    m_mutants[i].mutant_sentence_ids = [];
+                                  }else{
+				    m_mutants[i].mutant_sentence_ids = m_mutants[i].mutant_sentence_ids.split(',');
+				  }
+                                } 
+				this.mutants = m_mutants;
+                    console.log(res);    
+                },function(){
+                    console.log('请求失败处理');
+                });
+		},
 		
 		//添加变形单词 或者 修改变形单词
 		addMutant: function(){
