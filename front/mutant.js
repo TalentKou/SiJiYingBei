@@ -66,9 +66,9 @@ new Vue({
 		WORD_TYPES: CONST_WORD_TYPES
 	},
 	beforeMount: function(){
-		var that = this;
 		  var originId = window.location.href.split("=")[1];
 			this.originWord.origin_id = originId;
+				this.getMutants();
 			this.$http.get('/get_origin:' + originId).then(function(res){
 				var m_words = res.body;
 				for(var i in m_words){
@@ -79,7 +79,6 @@ new Vue({
 				  }
                                 } 
 				this.originWord = m_words[0] || {};
-				that.getMutants();
                     console.log(res);    
                 },function(){
                     console.log('请求失败处理');
