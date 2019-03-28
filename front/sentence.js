@@ -58,19 +58,22 @@ new Vue({
 			mutant_type: 1,
 			mutant_word: '',
 			mutant_fake: '',
-      mut_sentc_ids: []
+                        mut_sentc_ids: []
 		},
-    newSentence: {
-      sentence_id: 0,
-      content: '',
-      translation: "",
-    },
+                newSentence: {
+                        sentence_id: 0,
+			origin_id: 0,
+			mutant_id: 0,
+                        content: '',
+                        translation: "",
+                },
 		sentences: [],
 		WORD_TYPES: CONST_WORD_TYPES
 	},
 	beforeMount: function(){
 		  var mutantId = window.location.href.split("=")[1];
 			this.mutantWord.mutant_id = mutantId;
+		        this.newSentence.mutant_id = mutantId;
 		
 				//获取变形单词信息
 			this.$http.get('/get_mutant:' + mutantId).then(function(res){
@@ -83,7 +86,8 @@ new Vue({
 				  }
                                 } 
 				this.mutantWord = m_words[0] || {};
-                    console.log(res);    
+				this.newSentence.origin_id = this.mutantWord.origin_id;
+                                console.log(res);    
 				
 				//获取原始单词信息
 				this.$http.get('/get_origin:' + this.mutantWord.origin_id).then(function(res){
@@ -119,55 +123,40 @@ new Vue({
 	},
 	methods: {
 		/***********************************/
-    //以下为操作变形单词的方法
+    //以下为操作句子的方法
 		/************************************/
 
-		//获取大量变形单词
-		getMutants: function(){
-		this.$http.get('/get_muts_by_orgn:' + this.originWord.origin_id).then(function(res){
-				var m_mutants = res.body;
-				for(var i in m_mutants){
-                                  if(m_mutants[i].mutant_sentence_ids.trim() == ""){
-                                    m_mutants[i].mutant_sentence_ids = [];
-                                  }else{
-				    m_mutants[i].mutant_sentence_ids = m_mutants[i].mutant_sentence_ids.split(',');
-				  }
-                                } 
-				this.mutants = m_mutants;
-                    console.log(res);    
-                },function(){
-                    console.log('请求失败处理');
+		//获取大量句子
+		getSentences: function(){
+		this.$http.get('/get_sents_by_mut:' + this.mutantWord.mutant_id).then(function(res){
+			this.sentences =  res.body;
+                        console.log(res);
+		},function(){
+			console.log('请求失败处理');
                 });
 		},
 		
-		//添加变形单词 或者 修改变形单词
-		addMutant: function(){
-			var mutant = this.newMutant;
-			if(mutant.mutant_word.trim() == '' || 
-			mutant.mutant_fake.trim() == ''){
-				alert("请输入完整的单词(假名)意思!");
+		//添加句子 或者 修改句子
+		addSentence: function(){
+			var sentence = this.newSentence;
+			if(sentence.content.trim() == '' || 
+			   sentence.translation.trim() == ''){
+				alert("请输入完整的句子(翻译)!");
 				return;
 			}
 
-			var url = '', data = {
-				mutant_type: mutant.mutant_type,
-				mutant_word: mutant.mutant_word,
-				mutant_fake: mutant.mutant_fake,
-				mut_sentc_ids: mutant.mut_sentc_ids,
-			};
+			var url = '';
 
-			if(mutant.mutant_id == 0){
-				url = '/add_mutant';
-				data.origin_id = this.originWord.origin_id;
+			if(sentence.sentence_id == 0){
+				url = '/add_sentence';
 			}else{
-				url = '/update_mutant';
-				data.mutant_id = mutant.mutant_id;
+				url = '/update_sentence';
 			}
 
-			this.$http.post(url, data, {emulateJSON:true}).then(
+			this.$http.post(url, sentence, {emulateJSON:true}).then(
 				function(res){
-					this.resetNewMutant();
-					this.getMutants();
+					this.resetNewSentence();
+					this.getSentences();
 					console.log(res.body);
 				},
 				function(res){
@@ -175,19 +164,15 @@ new Vue({
 				});
 		},
 		
-		//修改变形单词
-		updateMutant: function(index){
-			var upMutant = this.mutants[index];
-			this.newMutant.mutant_id = upMutant.mutant_id;
-			this.newMutant.mutant_type = upMutant.mutant_type;
-			this.newMutant.mutant_word = upMutant.mutant_word;
-			this.newMutant.mutant_fake = upMutant.mutant_fake;
+		//修改句子
+		updateSentence: function(index){
+			this.newSentence = this.sentences[index];
 		},
-		//删除变形单词
-		deleteMutant: function(index){
-			var mutant = this.mutants[index];
-			this.$http.get('/del_mutant:' + mutant.mutant_id).then(function(res){
-				this.getMutants();
+		//删除句子
+		deleteSentence: function(index){
+			var sentence = this.sentences[index];
+			this.$http.get('/del_sentence:' + sentence.sentence_id).then(function(res){
+				this.getSentences();
                     console.log(res);    
                 },function(){
                     console.log('请求失败处理');
@@ -199,13 +184,13 @@ new Vue({
 		/************************************/
 
 		//彻底重置新变形数据
-		resetNewMutant: function(){
-			this.newMutant = {
-			mutant_id: 0,
-			mutant_type: 1,
-			mutant_word: '',
-			mutant_fake: '',
-			mut_sentc_ids: []
+		resetNewSentence: function(){
+			this.newSentence = {
+                        sentence_id: 0,
+			origin_id: this.originWord.origin_id,
+			mutant_id: this.mutantWord.mutant_id,
+                        content: '',
+                        translation: ""
 		};
 		}
 	}
