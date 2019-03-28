@@ -151,7 +151,25 @@ new Vue({
 					console.log(res.status);
 				});
 		},
-
+		
+		//修改变形单词
+		updateMutant: function(index){
+			var upMutant = this.mutants[index];
+			this.newMutant.mutant_id = upMutant.mutant_id;
+			this.newMutant.mutant_type = upMutant.mutant_type;
+			this.newMutant.mutant_word = upMutant.mutant_word;
+			this.newMutant.mutant_fake = upMutant.mutant_fake;
+		},
+		//删除变形单词
+		deleteMutant: function(index){
+			var mutant = this.mutants[index];
+			this.$http.get('/del_mutant/:' + mutant.mutant_id).then(function(res){
+				this.getMutants();
+                    console.log(res);    
+                },function(){
+                    console.log('请求失败处理');
+                });
+		}
 
 		/***********************************/
     //以下为数据还原的方法
