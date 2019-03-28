@@ -69,7 +69,7 @@ app.get("/get_origin:origin_id", function(req, res){
 });
 
 //请求删除某条单词信息
-app.get("/del_words/:jap_id", function(req, res){
+app.get("/del_words:jap_id", function(req, res){
   console.log("Somebody want delete words");
   
   dbOption.deleteOrigin(req.params.jap_id.split(":")[1], function(err, results){
@@ -145,10 +145,10 @@ app.get("/get_muts_by_orgn:origin_id", function(req, res){
 });
 
 //请求获取某条变形单词信息
-app.get("/get_mutant/:mutant_id", function(req, res){
+app.get("/get_mutant:mutant_id", function(req, res){
   console.log("Somebody want some mutant word");
   
-  dbOption.selectOneMutant(req.params.mutant_id[1], function(err, results){
+  dbOption.selectOneMutant(req.params.mutant_id.split(":")[1], function(err, results){
     if(err === 0){
       res.send(results);
       return;
@@ -160,10 +160,10 @@ app.get("/get_mutant/:mutant_id", function(req, res){
 });
 
 //请求删除某条变形单词信息
-app.get("/del_mutant/:mutant_id", function(req, res){
+app.get("/del_mutant:mutant_id", function(req, res){
   console.log("Somebody want delete some mutant word");
   
-  dbOption.deleteMutant(req.params.mutant_id[1], function(err, results){
+  dbOption.deleteMutant(req.params.mutant_id.split(":")[1], function(err, results){
     if(err === 0){
       res.send(results);
       return;
