@@ -76,7 +76,7 @@ new Vue({
 				    m_words[i].mutant_ids = m_words[i].mutant_ids.split(',');
 				  }
                                 } 
-				this.originWord = m_words;
+				this.originWord = m_words[0] || {};
                     console.log(res);    
                 },function(){
                     console.log('请求失败处理');
