@@ -32,6 +32,9 @@ new Vue({
 	    }
 	  }
 	},
+	updated: function(){
+		this.getWords();
+	},
 	methods: {
 		//获取大量原始单词
 		getWords: function(){
