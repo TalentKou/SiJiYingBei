@@ -64,8 +64,7 @@ new Vue({
 		},
 		WORD_TYPES: CONST_WORD_TYPES
 	},
-	computed: {
-		originWordCom: function(){
+	beforeMount: function(){
 		  var originId = window.location.href.split("=")[1];
 			this.originWord.origin_id = originId;
 			this.$http.get('/get_origin:' + originId).then(function(res){
@@ -83,6 +82,7 @@ new Vue({
                     console.log('请求失败处理');
                 });
 		},
+	computed: {
 		mutantTypes: function(){
 			var word_type = this.originWord.word_type;
 			for(i in CONST_WORD_TYPES){
