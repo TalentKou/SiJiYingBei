@@ -83,6 +83,13 @@ new Vue({
                     console.log('请求失败处理');
                 });
 		},
+	directives: {
+	  href: {
+	    inserted: function(el, binding){
+	      el.href = binding.value.url + binding.value.param;
+	    }
+	  }
+	},
 	computed: {
 		mutantTypes: function(){
 			var word_type = this.originWord.word_type;
