@@ -33,25 +33,19 @@
   <tr class="wd-add">
     <td class="btbg1 font-center"></td>
     <td class="font-center">
-	    {{originWord.word_type}}
-      <select v-model="newWord.word_type" name="word_type">
-        <option v-for="w_type in WORD_TYPES" :value="w_type.id">{{w_type.name}}</option>
-      </select>	  
+        <span v-for="w_type in WORD_TYPES" v-if="w_type.id == originWord.word_type">{{w_type.name}}</span>
     </td>
-    <td class="font-center"><input v-model="newWord.word_meaning"/></td>
-    <td class="font-center"><button type="button" @click="addWords">{{newWord.origin_id == 0 ? '添加' : '修改'}}</button></td>
+    <td class="font-center">{{originWord.word_meaning}}</td>
     <td class="font-center">
-      <select v-model="newWord.cur_mutant.mutant_type" name="cur_mutant.mutant_type">
+      <select v-model="newMutant.mutant_type" name="newMutant.mutant_type">
         <option v-for="m_type in mutantTypes" :value="m_type.id">{{m_type.name}}</option>
       </select>	  
     </td>
-    <td class="font-center"><input v-model="newWord.cur_mutant.mutant_word"/></td>
-    <td class="font-center"><input v-model="newWord.cur_mutant.mutant_fake"/></td>
+    <td class="font-center"><input v-model="newMutant.mutant_word"/></td>
+    <td class="font-center"><input v-model="newMutant.mutant_fake"/></td>
     <td class="font-center"><button type="button" @click="addMutant">添加</button></td>
-    <td class="font-center"><input v-model="newWord.cur_sentence.content"/></td>
-    <td class="font-center"><input v-model="newWord.cur_sentence.translation"/></td>
   </tr>
-  <tr v-for="(word, index) in words">
+  <!--tr v-for="(word, index) in mutants">
     <td class="btbg1 font-center">{{index+1}}</td>
     <td class="font-center" v-for="w_type in WORD_TYPES" v-if="w_type.id==word.word_type">{{w_type.name}}</td>
     <td class="font-center">{{word.word_meaning}}</td>
@@ -69,12 +63,12 @@
     <td class="font-center">变形操作</td>
     <td class="font-center"></td>
     <td class="font-center"></td>
-    <!--td class="btbg1 font-center"><button type="button" @click="deleteWord(index)">删除</button></td-->
-  </tr>
+    <td class="btbg1 font-center"><button type="button" @click="deleteWord(index)">删除</button></td>
+  </tr-->
 </table>
 </div>
 <script src="vue.min.js"></script>
 <script src="vue-resource.min.js"></script>
-<script src="app.js"></script>
+<script src="mutant.js"></script>
 </body>
 </html>
