@@ -134,10 +134,6 @@ new Vue({
 		//获取大量句子
 		getSentences: function(){
 		this.$http.get('/get_sents_by_mut:' + this.mutantWord.mutant_id).then(function(res){
-			origin_ids: [],
-                        mutant_ids: [],
-                        grammar_ids: [],
-                        other_ids: []
 			var m_sentences = res.body;
 				for(var i in m_sentences){
                                   if(m_sentences[i].origin_ids.trim() == ""){m_sentences[i].origin_ids = [];
