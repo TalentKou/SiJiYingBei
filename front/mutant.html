@@ -22,7 +22,6 @@
   
   <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#cccccc" class="tabtop13" align="center">
   <tr>
-    <td class="btbg font-center titfont">序号</td>
     <td class="btbg font-center titfont">词性</td>
     <td class="btbg font-center titfont">意思</td>
     <td class="btbg font-center titfont">变形类型</td>
@@ -45,26 +44,30 @@
     <td class="font-center"><input v-model="newMutant.mutant_fake"/></td>
     <td class="font-center"><button type="button" @click="addMutant">添加</button></td>
   </tr>
-  <!--tr v-for="(word, index) in mutants">
+	  <tr>
+    <td class="btbg font-center titfont">序号</td>
+    <td class="btbg font-center titfont">词性</td>
+    <td class="btbg font-center titfont">意思</td>
+    <td class="btbg font-center titfont">变形类型</td>
+    <td class="btbg font-center titfont">变形单词</td>
+    <td class="btbg font-center titfont">变形假名</td>
+    <td class="btbg font-center titfont">变形操作</td>
+  </tr>
+ <tr v-for="(word, index) in mutants">
     <td class="btbg1 font-center">{{index+1}}</td>
-    <td class="font-center" v-for="w_type in WORD_TYPES" v-if="w_type.id==word.word_type">{{w_type.name}}</td>
-    <td class="font-center">{{word.word_meaning}}</td>
     <td class="font-center">
-	    <button type="button" @click="updateWord(index)">修改</button>
-	    <button type="button" @click="deleteWord(index)">删除</button>
-	  </td>
-     <td class="font-center">
-      <select name="m_id">
-        <option v-for="m_id in word.mutant_ids" :value="m_id">な形容词</option>
-      </select>	  
+        <span v-for="w_type in WORD_TYPES" v-if="w_type.id == originWord.word_type">{{w_type.name}}</span>
     </td>
-    <td class="font-center"></td>
-    <td class="font-center"></td>
-    <td class="font-center">变形操作</td>
-    <td class="font-center"></td>
-    <td class="font-center"></td>
-    <td class="btbg1 font-center"><button type="button" @click="deleteWord(index)">删除</button></td>
-  </tr-->
+    <td class="font-center">{{originWord.word_meaning}}</td>
+    <td v-for="m_type in mutantTypes" v-if="w_type.id == word.mutant_type">{{m_type.name}}</td>
+    <td class="font-center">{{word.mutant_word}}</td>
+    <td class="font-center">{{word.mutant_fake}}</td>
+    <td class="font-center">
+	    <button type="button" @click="updateMutant(index)">修改</button>
+	    <button type="button" @click="deleteMutant(index)">删除</button>
+	    <a v-href="{url: 'sentence.html?mutantId=', param: word.mutant_id}" target="_self">查看</a>
+    </td>
+  </tr>
 </table>
 </div>
 <script src="vue.min.js"></script>
