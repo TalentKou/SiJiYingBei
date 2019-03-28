@@ -172,7 +172,7 @@ new Vue({
 		deleteMutant: function(index){
 			var mutant = this.mutants[index];
 			
-			if(mutant.mutant_sentence_ids.lenth > 0){
+			if(mutant.mutant_sentence_ids.length > 0){
 			  alert("不能删除关联有句子的变形单词！");
 				return;
 			}
