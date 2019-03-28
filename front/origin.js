@@ -105,6 +105,7 @@ new Vue({
 			var word = this.words[index];
 			if(word.mutant_ids.lenth > 0){
 			  alert("不能删除关联有变形单词的原始单词！");
+				return;
 			}
 			this.$http.get('/del_words:' + word.origin_id).then(function(res){
 				this.getWords();
