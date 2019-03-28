@@ -167,8 +167,8 @@ app.get("/get_mutant:mutant_id", function(req, res){
 //请求删除某条变形单词信息
 app.get("/del_mutant:mutant_id", function(req, res){
   console.log("Somebody want delete some mutant word");
-  
-  dbOption.deleteMutant(req.params.mutant_id.split(":")[1], function(err, results){
+  var mutant_id = req.params.mutant_id.split(":")[1];
+  dbOption.deleteMutant(mutant_id, function(err, results){
     if(err === 0){
       res.send(results);
       return;
