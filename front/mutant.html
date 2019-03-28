@@ -22,6 +22,7 @@
   
   <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#cccccc" class="tabtop13" align="center">
   <tr>
+    <td class="btbg font-center titfont">序号</td>
     <td class="btbg font-center titfont">词性</td>
     <td class="btbg font-center titfont">意思</td>
     <td class="btbg font-center titfont">变形类型</td>
@@ -43,15 +44,6 @@
     <td class="font-center"><input v-model="newMutant.mutant_word"/></td>
     <td class="font-center"><input v-model="newMutant.mutant_fake"/></td>
     <td class="font-center"><button type="button" @click="addMutant">{{newMutant.mutant_id == 0 ? '添加' : '修改'}}</button></td>
-  </tr>
-	  <tr>
-    <td class="btbg font-center titfont">序号</td>
-    <td class="btbg font-center titfont">词性</td>
-    <td class="btbg font-center titfont">意思</td>
-    <td class="btbg font-center titfont">变形类型</td>
-    <td class="btbg font-center titfont">变形单词</td>
-    <td class="btbg font-center titfont">变形假名</td>
-    <td class="btbg font-center titfont">变形操作</td>
   </tr>
  <tr v-for="(word, index) in mutants">
     <td class="btbg1 font-center">{{index+1}}</td>
