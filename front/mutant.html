@@ -51,7 +51,7 @@
         <span v-for="w_type in WORD_TYPES" v-if="w_type.id == originWord.word_type">{{w_type.name}}</span>
     </td>
     <td class="font-center">{{originWord.word_meaning}}</td>
-    <td v-for="m_type in mutantTypes" v-if="w_type.id == word.mutant_type">{{m_type.name}}</td>
+    <td><span v-for="m_type in mutantTypes" v-if="w_type.id == word.mutant_type">{{m_type.name}}</span></td>
     <td class="font-center">{{word.mutant_word}}</td>
     <td class="font-center">{{word.mutant_fake}}</td>
     <td class="font-center">
