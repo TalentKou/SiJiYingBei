@@ -7,11 +7,10 @@
 <link rel="stylesheet" type="text/css" href="app.css" />
 </head>
 <body>
-<div style="font-size: 20px;background-color:blue;">TEST WORDS</div>
-<div id="app">
+<div id="mutant">
   <table width="100%" border="0" cellspacing="0" cellpadding="0" align="center">
     <tr>
-      <td colspan="2" align="center" class="biaoti" height="60">词汇表</td>
+      <td colspan="2" align="center" class="biaoti" height="60">变形表</td>
     </tr>
     <tr>
       <td align="left" height="25">
@@ -26,17 +25,15 @@
     <td class="btbg font-center titfont">序号</td>
     <td class="btbg font-center titfont">词性</td>
     <td class="btbg font-center titfont">意思</td>
-    <td class="btbg font-center titfont">原型操作</td>
     <td class="btbg font-center titfont">变形类型</td>
     <td class="btbg font-center titfont">变形单词</td>
     <td class="btbg font-center titfont">变形假名</td>
     <td class="btbg font-center titfont">变形操作</td>
-    <td class="btbg font-center titfont">变形句子</td>
-    <td class="btbg font-center titfont">变形翻译</td>
   </tr>
   <tr class="wd-add">
     <td class="btbg1 font-center"></td>
     <td class="font-center">
+	    {{originWord.word_type}}
       <select v-model="newWord.word_type" name="word_type">
         <option v-for="w_type in WORD_TYPES" :value="w_type.id">{{w_type.name}}</option>
       </select>	  
