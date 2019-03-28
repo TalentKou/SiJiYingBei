@@ -79,6 +79,7 @@ new Vue({
 		  var mutantId = window.location.href.split("=")[1];
 			this.mutantWord.mutant_id = mutantId;
 		        this.newSentence.mutant_id = mutantId;
+		this.getSentences();
 		
 				//获取变形单词信息
 			this.$http.get('/get_mutant:' + mutantId).then(function(res){
