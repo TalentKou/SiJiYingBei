@@ -84,7 +84,7 @@ new Vue({
                 });
 		},
 		mutantTypes: function(){
-			var word_type = this.newWord.word_type;
+			var word_type = this.originWord.word_type;
 			for(i in CONST_WORD_TYPES){
 				if(word_type == CONST_WORD_TYPES[i].id){
 				  return CONST_WORD_TYPES[i].mutants;
