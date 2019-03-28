@@ -55,7 +55,7 @@ app.get("/get_words", function(req, res){
 
 //请求获取某条单词信息
 app.get("/get_origin:origin_id", function(req, res){
-  console.log("Somebody want some origin word");
+  console.log("Somebody want some origin word" + req.params.origin_id);
   
   dbOption.selectOneOrigin(req.params.origin_id.split(":")[1], function(err, results){
     if(err === 0){
