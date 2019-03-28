@@ -273,6 +273,7 @@ function dbOption(){
                            } 
                            res[0].mutant_sentence_ids = sentence_ids;
                            
+                           console.log("&&&&&&&&&&"+res[0].mutant_sentence_ids);
                            that.updateMutant(res[0], function(){});
                          }
                          console.log(sentence_ids);
