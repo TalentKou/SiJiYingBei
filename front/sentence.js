@@ -71,19 +71,39 @@ new Vue({
 	beforeMount: function(){
 		  var mutantId = window.location.href.split("=")[1];
 			this.mutantWord.mutant_id = mutantId;
+		
+				//获取变形单词信息
 			this.$http.get('/get_mutant:' + mutantId).then(function(res){
 				var m_words = res.body;
 				for(var i in m_words){
-                                  if(m_words[i].mut_sentc_ids.trim() == ""){
-                                    m_words[i].mut_sentc_ids = [];
+                                  if(m_words[i].mutant_sentence_ids.trim() == ""){
+                                    m_words[i].mutant_sentence_ids = [];
                                   }else{
-				    m_words[i].mut_sentc_ids = m_words[i].mut_sentc_ids.split(',');
+				    m_words[i].mutant_sentence_ids = m_words[i].mutant_sentence_ids.split(',');
 				  }
                                 } 
 				this.mutantWord = m_words[0] || {};
                     console.log(res);    
+				
+				//获取原始单词信息
+				this.$http.get('/get_origin:' + this.mutantWord.origin_id).then(function(res){
+				var mm_words = res.body;
+				for(var i in mm_words){
+                                  if(mm_words[i].mutant_ids.trim() == ""){
+                                    mm_words[i].mutant_ids = [];
+                                  }else{
+				    mm_words[i].mutant_ids = mm_words[i].mutant_ids.split(',');
+				  }
+                                } 
+				this.originWord = mm_words[0] || {};
+                    console.log(res);    
+								
                 },function(){
-                    console.log('请求失败处理');
+                    console.log('请求失败处理:获取原始单词信息失败');
+                });
+				
+                },function(){
+                    console.log('请求失败处理:获取变形单词信息失败');
                 });
 		},
 	computed: {
