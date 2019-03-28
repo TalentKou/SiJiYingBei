@@ -51,7 +51,8 @@ new Vue({
 		originWord: {
 			origin_id: 0,
 			word_type: 0,
-			word_meaning: ''
+			word_meaning: '',
+			mutant_ids: []
 		},
 		mutantWord: {
 			mutant_id: 0,
@@ -66,6 +67,10 @@ new Vue({
 			mutant_id: 0,
                         content: '',
                         translation: "",
+			origin_ids: [],
+                        mutant_ids: [],
+                        grammar_ids: [],
+                        other_ids: []
                 },
 		sentences: [],
 		WORD_TYPES: CONST_WORD_TYPES
@@ -129,7 +134,26 @@ new Vue({
 		//获取大量句子
 		getSentences: function(){
 		this.$http.get('/get_sents_by_mut:' + this.mutantWord.mutant_id).then(function(res){
-			this.sentences =  res.body;
+			origin_ids: [],
+                        mutant_ids: [],
+                        grammar_ids: [],
+                        other_ids: []
+			var m_sentences = res.body;
+				for(var i in m_sentences){
+                                  if(m_sentences[i].origin_ids.trim() == ""){m_sentences[i].origin_ids = [];
+                                  }else{m_sentences[i].origin_ids = m_sentences[i].origin_ids.split(',');}
+					
+					if(m_sentences[i].mutant_ids.trim() == ""){m_sentences[i].mutant_ids = [];
+                                  }else{m_sentences[i].mutant_ids = m_sentences[i].mutant_ids.split(',');}
+					
+					if(m_sentences[i].grammar_ids.trim() == ""){m_sentences[i].grammar_ids = [];
+                                  }else{m_sentences[i].grammar_ids = m_sentences[i].grammar_ids.split(',');}
+					
+					if(m_sentences[i].other_ids.trim() == ""){m_sentences[i].other_ids = [];
+                                  }else{m_sentences[i].other_ids = m_sentences[i].other_ids.split(',');}
+                                } 
+				this.sentences = m_sentences;
+			
                         console.log(res);
 		},function(){
 			console.log('请求失败处理');
@@ -190,7 +214,11 @@ new Vue({
 			origin_id: this.originWord.origin_id,
 			mutant_id: this.mutantWord.mutant_id,
                         content: '',
-                        translation: ""
+                        translation: "",
+			origin_ids: [],
+                        mutant_ids: [],
+                        grammar_ids: [],
+                        other_ids: []
 		};
 		}
 	}
