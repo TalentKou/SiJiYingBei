@@ -183,7 +183,7 @@ function dbOption(){
     var modSqlParams = [data.mutant_type, 
     data.mutant_word,
     data.mutant_fake,
-    data.mutant_sentence_ids.join(','),
+    ((data.mutant_sentence_ids instanceof Array) ? data.mutant_sentence_ids.join(',') : data.mutant_sentence_ids),
     data.mutant_id];
     //改
     connection.query(modSql, modSqlParams, function (err, result) {
@@ -273,7 +273,6 @@ function dbOption(){
                            } 
                            res[0].mutant_sentence_ids = sentence_ids;
                            
-                           console.log("&&&&&&&&&&"+res[0].mutant_sentence_ids);
                            that.updateMutant(res[0], function(){});
                          }
                          console.log(sentence_ids);
