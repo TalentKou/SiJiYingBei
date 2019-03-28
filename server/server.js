@@ -31,6 +31,11 @@ app.get("*mutant.*", function(req, res){
   console.log("request " + realUrl);
   res.sendFile(mainDir + "front/" + realUrl);
 });
+app.get("*sentence.*", function(req, res){
+  var realUrl = req.url.split('?')[0].split('/')[1];
+  console.log("request " + realUrl);
+  res.sendFile(mainDir + "front/" + realUrl);
+});
 
 app.get("*vue*", function(req, res){
   console.log("request vue*" + req.url);
