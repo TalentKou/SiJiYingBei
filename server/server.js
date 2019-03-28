@@ -130,7 +130,7 @@ app.post("/update_words", upload.array(), function(req, res){
 /*****************************/
 
 //请求获取相应原始单词的所有变形单词信息
-app.get("/get_muts_by_orgn/:origin_id", function(req, res){
+app.get("/get_muts_by_orgn:origin_id", function(req, res){
   console.log("Somebody want mutants for some origin word" + req.params.origin_id);
   
   dbOption.getMorMutsByOrgn(req.params.origin_id.split(":")[1], function(err, results){
