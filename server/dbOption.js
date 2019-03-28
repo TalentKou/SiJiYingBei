@@ -245,10 +245,10 @@ function dbOption(){
                       data.mutant_id,
                       data.content,
                       data.translation,
-                      data.origin_ids.join(","),];
-                      data.mutant_ids.join(","),];
-                      data.grammar_ids.join(","),];
-                      data.other_ids.join(","),];
+                      data.origin_ids.join(",")];
+                      data.mutant_ids.join(",")];
+                      data.grammar_ids.join(",")];
+                      data.other_ids.join(",")];
     var that = this;
     connection.query(addSql, addSqlParams,
                    function(error, result){
