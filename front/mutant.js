@@ -171,6 +171,11 @@ new Vue({
 		//删除变形单词
 		deleteMutant: function(index){
 			var mutant = this.mutants[index];
+			
+			if(mutant.mutant_sentence_ids.lenth > 0){
+			  alert("不能删除关联有句子的变形单词！");
+				return;
+			}
 			this.$http.get('/del_mutant:' + mutant.mutant_id).then(function(res){
 				this.getMutants();
                     console.log(res);    
