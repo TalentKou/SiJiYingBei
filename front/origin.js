@@ -103,7 +103,7 @@ new Vue({
 		//删除原始单词
 		deleteWord: function(index){
 			var word = this.words[index];
-			if(word.mutant_ids.lenth > 0){
+			if(word.mutant_ids.length > 0){
 			  alert("不能删除关联有变形单词的原始单词！");
 				return;
 			}
