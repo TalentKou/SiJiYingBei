@@ -27,8 +27,9 @@ app.get("*origin.*", function(req, res){
   res.sendFile(mainDir + "front/" + req.url);
 });
 app.get("*mutant.*", function(req, res){
-  console.log("request mutant.*" + req.url);
-  res.sendFile(mainDir + "front/" + req.url);
+  var realUrl = req.url.split('?')[0].split('/')[1];
+  console.log("request " + realUrl);
+  res.sendFile(mainDir + "front/" + realUrl);
 });
 
 app.get("*vue*", function(req, res){
