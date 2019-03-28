@@ -122,7 +122,7 @@ function dbOption(){
     data.mutant_type,
     data.mutant_word,
     data.mutant_fake,
-    data.mutant_sentence_ids.join(","),];
+    data.mutant_sentence_ids.join(",")];
     var that = this;
     connection.query(addSql, addSqlParams,
                    function(error, result){
@@ -245,9 +245,9 @@ function dbOption(){
                       data.mutant_id,
                       data.content,
                       data.translation,
-                      data.origin_ids.join(",")];
-                      data.mutant_ids.join(",")];
-                      data.grammar_ids.join(",")];
+                      data.origin_ids.join(","),
+                      data.mutant_ids.join(","),
+                      data.grammar_ids.join(","),
                       data.other_ids.join(",")];
     var that = this;
     connection.query(addSql, addSqlParams,
