@@ -217,6 +217,118 @@ app.post("/update_mutant", upload.array(), function(req, res){
   }); 
 });
 
+/*****************************/
+//以下是操作句子表的接口内容
+/*****************************/
+
+//请求获取相应原始单词的所有句子信息
+app.get("/get_sents_by_orgn:origin_id", function(req, res){
+  console.log("Somebody want sentences for some origin word" + req.params.origin_id);
+  
+  dbOption.getMorSentsByOrgn(req.params.origin_id.split(":")[1], function(err, results){
+    if(err === 0){
+      res.send(results);
+      return;
+    }
+    
+    res.send(err);
+    console.log(err);
+  });  
+});
+
+//请求获取相应变形单词的所有句子信息
+app.get("/get_sents_by_mut:mutant_id", function(req, res){
+  console.log("Somebody want sentences for some mutant word" + req.params.mutant_id);
+  
+  dbOption.getMorSentsByMut(req.params.mutant_id.split(":")[1], function(err, results){
+    if(err === 0){
+      res.send(results);
+      return;
+    }
+    
+    res.send(err);
+    console.log(err);
+  });  
+});
+
+//请求获取某条句子信息
+app.get("/get_sentence:sentence_id", function(req, res){
+  console.log("Somebody want some sentence");
+  
+  dbOption.selectOneSentence(req.params.sentence_id.split(":")[1], function(err, results){
+    if(err === 0){
+      res.send(results);
+      return;
+    }
+    
+    res.send(err);
+    console.log(err);
+  });  
+});
+
+//请求删除某条句子信息
+app.get("/del_sentence:sentence_id", function(req, res){
+  console.log("Somebody want delete some sentence");
+  
+  dbOption.deleteSentence(req.params.sentence_id.split(":")[1], function(err, results){
+    if(err === 0){
+      res.send(results);
+      return;
+    }
+    
+    res.send(err);
+    console.log(err);
+  });   
+});
+
+//请求插入新的句子信息
+app.post("/add_sentence", upload.array(), function(req, res){
+  console.log("Somebody want add sentence" + req.body.content);
+  
+  dbOption.addSentence ({
+    origin_id: req.body.origin_id,
+    mutant_id: req.body.mutant_id,
+    content: req.body.content,
+    translation: req.body.translation,
+    origin_ids: req.body.origin_ids||[],
+    mutant_ids: req.body.mutant_ids||[],
+    grammar_ids: req.body.grammar_ids||[],
+    other_ids: req.body.other_ids||[],
+  }, function(err, results){
+    if(err === 0){
+      res.send(results);
+      return;
+    }
+    
+    res.send(err);
+    console.log(err);
+  }); 
+});
+
+
+//请求修改相关句子信息
+app.post("/update_sentence", upload.array(), function(req, res){
+  console.log("Somebody want update some sentence" + req.body.content);
+  
+  dbOption.updateSentence  ({
+    sentence_id: req.body.sentence_id,
+    content: req.body.content,
+    translation: req.body.translation,
+    origin_ids: req.body.origin_ids||[],
+    mutant_ids: req.body.mutant_ids||[],
+    grammar_ids: req.body.grammar_ids||[],
+    other_ids: req.body.other_ids||[],
+  }, function(err, results){
+    if(err === 0){
+      res.send(results);
+      return;
+    }
+    
+    res.send(err);
+    console.log(err);
+  }); 
+});
+
 app.listen(80);
 
 console.log("47.104.67.32");
