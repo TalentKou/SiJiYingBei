@@ -32,7 +32,7 @@ new Vue({
 	    }
 	  }
 	},
-	updated: function(){
+	beforeMount: function(){
 		this.getWords();
 	},
 	methods: {
