@@ -48,6 +48,13 @@ const CONST_WORD_TYPES = [
 new Vue({
 	el: "#app",
 	data: {
+		originWord: {
+			origin_id: 0,
+			word_type: 1,
+			word_meaning: '',
+			mutant_ids: [],
+			sentence_ids: []
+		},
 		words: [],
 		newWord: {
 			origin_id: 0,
@@ -71,6 +78,9 @@ new Vue({
 		WORD_TYPES: CONST_WORD_TYPES
 	},
 	computed: {
+		originWord: function(){
+		  
+		},
 		mutantTypes: function(){
 			var word_type = this.newWord.word_type;
 			for(i in CONST_WORD_TYPES){
