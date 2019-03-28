@@ -163,7 +163,7 @@ new Vue({
 		//删除变形单词
 		deleteMutant: function(index){
 			var mutant = this.mutants[index];
-			this.$http.get('/del_mutant/:' + mutant.mutant_id).then(function(res){
+			this.$http.get('/del_mutant:' + mutant.mutant_id).then(function(res){
 				this.getMutants();
                     console.log(res);    
                 },function(){
