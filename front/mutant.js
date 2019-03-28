@@ -50,7 +50,7 @@ new Vue({
 	data: {
 		originWord: {
 			origin_id: 0,
-			word_type: 1,
+			word_type: 0,
 			word_meaning: '',
 			mutant_ids: [],
 			sentence_ids: []
@@ -159,6 +159,13 @@ new Vue({
 
 		//彻底重置新变形数据
 		resetNewMutant: function(){
+			this.newMutant = {
+			mutant_id: 0,
+			mutant_type: 1,
+			mutant_word: '',
+			mutant_fake: '',
+			mut_sentc_ids: []
+		};
 		}
 	}
 });
