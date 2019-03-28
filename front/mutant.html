@@ -42,7 +42,7 @@
     </td>
     <td class="font-center"><input v-model="newMutant.mutant_word"/></td>
     <td class="font-center"><input v-model="newMutant.mutant_fake"/></td>
-    <td class="font-center"><button type="button" @click="addMutant">添加</button></td>
+    <td class="font-center"><button type="button" @click="addMutant">{{newMutant.mutant_id == 0 ? '添加' : '修改'}}</button></td>
   </tr>
 	  <tr>
     <td class="btbg font-center titfont">序号</td>
