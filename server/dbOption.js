@@ -223,6 +223,149 @@ function dbOption(){
       callback(0, result);
      });
     };
+  
+  /*******************************************/
+  //以下为句子表操作方法
+  /******************************************/
+  //添加句子数据
+  /*data = {
+    origin_id: 1,
+    mutant_id: 1,
+    content: '私',
+    translation: 'わたし',
+    origin_ids: [0001, 0002, ...],
+    mutant_ids: [0001, 0002, ...],
+    grammar_ids: [0001, 0002, ...],
+    other_ids: [0001, 0002, ...],
+  }*/
+  this.addSentence = function(data, callback){
+    var addSql='INSERT INTO sentence_table(origin_id, mutant_id, content, translation, origin_ids, mutant_ids,'+
+        'grammar_ids,other_ids) VALUES(?,?,?,?,?,?,?,?)';
+    var addSqlParams=[data.origin_id,
+                      data.mutant_id,
+                      data.content,
+                      data.translation,
+                      data.origin_ids.join(","),];
+                      data.mutant_ids.join(","),];
+                      data.grammar_ids.join(","),];
+                      data.other_ids.join(","),];
+    var that = this;
+    connection.query(addSql, addSqlParams,
+                   function(error, result){
+                     if(error){
+                       console.log('[INSERT ERROR] - ',error.message);
+                       callback(error);
+                       return;
+                     }
+    
+                     console.log('INSERT ID:',result.insertId);
+                     var insertSentId = result.insertId+"";
+
+                     //添加句子成功，则查询相关变形单词，并写入该句子的id
+                     that.selectOneMutant(addSqlParams[1], function(err, res){
+                       if(err === 0){
+                         var sentence_ids = res[0].mutant_sentence_ids;
+                         if(sentence_ids.indexOf(insertSentId) < 0){
+                           if(sentence_ids.trim() == ""){
+                             sentence_ids += insertSentId;
+                           }else{
+                             sentence_ids += "," + insertSentId;
+                           } 
+                           res[0].mutant_sentence_ids = sentence_ids;
+                           
+                           that.updateMutant(res[0], function(){});
+                         }
+                         console.log(sentence_ids);
+                       }
+                     });
+
+                     callback(0, result);
+                   });
+  };
+
+    //删除句子数据
+    this.deleteSentence = function(sentence_id, callback){
+      connection.query("DELETE FROM sentence_table where sentence_id=" + sentence_id, function(error, result){
+      if(error){
+        console.log('[DELETE ERROR] - ',error.message);
+        callback(error);
+        return;
+      }
+      console.log('DELETE SUCCEED');
+      callback(0, result);
+     });
+    };
+
+    //修改句子数据
+  /*data = {
+    sentence_id: 1,
+    content: '私',
+    translation: 'わたし',
+    origin_ids: [0001, 0002, ...],
+    mutant_ids: [0001, 0002, ...],
+    grammar_ids: [0001, 0002, ...],
+    other_ids: [0001, 0002, ...],
+  }*/
+  this.updateSentence = function(data, callback){
+    var modSql = 'UPDATE sentence_table SET content = ?,translation = ?,origin_ids = ?,mutant_ids = ?,'+
+        'grammar_ids = ?,other_ids = ? WHERE sentence_id = ?';
+    var modSqlParams = [data.content, 
+    data.translation,
+    data.origin_ids.join(','),
+    data.mutant_ids.join(','),
+    data.grammar_ids.join(','),
+    data.other_ids.join(','),
+    data.sentence_id];
+    //改
+    connection.query(modSql, modSqlParams, function (err, result) {
+      if(err){
+         console.log('[UPDATE ERROR] - ',err.message);
+         callback(err);
+         return;
+      }        
+      
+      console.log('UPDATE affectedRows',result.affectedRows);
+      callback(0, result);
+     });
+  };
+
+    //查询单条句子数据
+    this.selectOneSentence = function(sentence_id, callback){
+      connection.query("SELECT * FROM sentence_table where sentence_id=" + sentence_id, function(error, result){
+      if(error){
+        console.log('[SELECT ERROR] - ',error.message);
+        callback(error);
+        return;
+      }
+      
+      callback(0, result);
+     });
+    };
+    
+    //查询相应原始单词的多条句子数据
+    this.getMorSentsByOrgn = function(origin_id, callback){
+      connection.query("SELECT * FROM sentence_table where origin_id=" + origin_id, function(error, result){
+      if(error){
+        console.log('[SELECT ERROR] - ',error.message);
+        callback(error);
+        return;
+      }
+      
+      callback(0, result);
+     });
+    };
+  //查询相应变形单词的多条句子数据
+    this.getMorSentsByMut = function(mutant_id, callback){
+      connection.query("SELECT * FROM sentence_table where mutant_id=" + mutant_id, function(error, result){
+      if(error){
+        console.log('[SELECT ERROR] - ',error.message);
+        callback(error);
+        return;
+      }
+      
+      callback(0, result);
+     });
+    };
 }
 
 module.exports = dbOption;
