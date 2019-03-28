@@ -133,7 +133,7 @@ app.post("/update_words", upload.array(), function(req, res){
 app.get("/get_muts_by_orgn/:origin_id", function(req, res){
   console.log("Somebody want mutants for some origin word");
   
-  dbOption.getMorMutsByOrgn(req.params.origin_id[1], function(err, results){
+  dbOption.getMorMutsByOrgn(req.params.origin_id.split(":")[1], function(err, results){
     if(err === 0){
       res.send(results);
       return;
