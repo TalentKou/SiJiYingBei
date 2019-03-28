@@ -168,6 +168,18 @@ app.get("/get_mutant:mutant_id", function(req, res){
 app.get("/del_mutant:mutant_id", function(req, res){
   console.log("Somebody want delete some mutant word");
   var mutant_id = req.params.mutant_id.split(":")[1];
+  
+  //先根据mutant_id查出相关变形单词
+  /*dbOption.selectOneMutant(mutant_id, function(err, results){
+    if(err === 0){
+      var origin_id = results.body.origin_id;
+      return;
+    }
+    
+    res.send(err);
+    console.log(err);
+  });  */
+  
   dbOption.deleteMutant(mutant_id, function(err, results){
     if(err === 0){
       res.send(results);
