@@ -47,8 +47,8 @@ app.post("/add_word", upload.array(), function(req, res){
         param[2].push(data[p]);
     }
 
-    dbOption.insert(param, function(err, res){
-        res.send(err || res);
+    dbOption.insert(param, function(error, result){
+        res.send(error || result);
     });
 });
 
@@ -63,8 +63,8 @@ app.post("/del_word", upload.array(), function(req, res){
         param[2].push(data[p]);
     }
 
-    dbOption.delete(param, function(err, res){
-        res.send(err || res);
+    dbOption.delete(param, function(error, result){
+        res.send(error || result);
     });
 });
 
@@ -79,8 +79,8 @@ app.post("/update_word", upload.array(), function(req, res){
         param[2].push(data[p]);
     }
 
-    dbOption.delete(param, function(err, res){
-        res.send(err || res);
+    dbOption.delete(param, function(error, result){
+        res.send(error || result);
     });
 });
 
@@ -94,8 +94,8 @@ app.post("/get_words", upload.array(), function(req, res){
         param.push(data[p]);
     }
 
-    dbOption.select(param, function(err, res){
-        res.send(err || res);
+    dbOption.select(param, function(error, result){
+        res.send(error || result);
     });
 });
 
