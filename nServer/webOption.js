@@ -42,6 +42,8 @@ app.post("/add_word", upload.array(), function(req, res){
     var data = req.body, 
         param = ['word_tb', [], []];
     delete data.word_id;
+    delete data.create_time;
+    delete data.update_time;
     for(var p in data){
         param[1].push(p);
         param[2].push(data[p]);
@@ -74,6 +76,8 @@ app.post("/update_word", upload.array(), function(req, res){
     
     var data = req.body, 
         param = ['word_tb', [], []];
+    delete data.create_time;
+    delete data.update_time;
     for(var p in data){
         param[1].push(p);
         param[2].push(data[p]);
