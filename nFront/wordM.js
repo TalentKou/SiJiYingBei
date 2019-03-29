@@ -53,7 +53,9 @@ new Vue({
 
         //删除单词
         deleteWord: function(id){
-            this.$http.get('/del_word:' + id).then(
+            this.$http.post('/del_word', 
+            {word_id: id}, 
+            {emulateJSON:true}).then(
                 function(res){
                     this.getWords();
                     console.log(res);    
@@ -86,6 +88,22 @@ new Vue({
 				function(res){
 					console.log(res.status);
 				});
+        },
+
+        //查询单词
+        getWords: function(){
+            var that = this;
+            this.$http.post('/get_words', 
+            {start: 1,//从第一页开始
+             pages: 1,//只返回一页
+             number: 10}, //每页十个单词
+            {emulateJSON:true}).then(
+                function(res){
+                    that.words = res.body;
+                    console.log(res);    
+                },function(res){
+                    console.log(res);
+                });
         },
 
         //重置word对象
