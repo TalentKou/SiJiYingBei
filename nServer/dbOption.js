@@ -113,18 +113,16 @@ function dbOption(){
         if(data[2] == 0){
             sql = 'SELECT * FROM ' + data[0];
         }else{
-            sql = 'SELECT * FROM ' + data[0] + ' WHERE ROWNUM <= ' + data[2]*data[3];
+            sql = 'SELECT * FROM ' + data[0] + ' LIMIT 0,' + data[2]*data[3];
         }
     }else{
         if(data[2] == 0){
-            sql = 'SELECT * FROM ' + data[0] + ' WHERE ROWNUM > ' + data[1]*data[3]
+            sql = 'SELECT * FROM ' + data[0] + ' LIMIT ' + data[1]*data[3] + ',10000';
         }else{
-            sql = 'SELECT * FROM (SELECT * FROM ' + data[0] + ' WHERE ROWNUM > ' + 
-            data[1]*data[3] + ') AS midd_tb WHERE ROWNUM <= ' + data[2]*data[3];
+            sql = 'SELECT * FROM ' + data[0] + ' LIMIT ' + data[1]*data[3] + ',' + data[2]*data[3];
         }
     }
 
-    console.log(sql);
     connection.query(sql, function(error, result){
         callback(error, result);
 
