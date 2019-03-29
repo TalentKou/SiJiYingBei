@@ -94,3 +94,7 @@ app.post("/get_words", upload.array(), function(req, res){
         res.send(err || res);
     });
 });
+
+app.listen(80);
+
+console.log("47.104.67.32");
