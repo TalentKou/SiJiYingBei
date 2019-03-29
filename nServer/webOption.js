@@ -1,4 +1,3 @@
-//只服务于前端访问接口
 //webOption.js
 var dbOption = new (require("./dbOption"))();
 var express=require("express");
@@ -83,16 +82,15 @@ app.post("/update_word", upload.array(), function(req, res){
 
 //请求查询单词
 app.post("/get_words", upload.array(), function(req, res){
-    console.log("Somebody want get some words: " + req.body.words * req.body.pages);
+    console.log("Somebody want get some words: " + req.body.number * req.body.pages);
     
     var data = req.body, 
-        param = ['word_tb', [], []];
+        param = ['word_tb'];
     for(var p in data){
-        param[1].push(p);
-        param[2].push(data[p]);
+        param.push(data[p]);
     }
 
-    dbOption.delete(param, function(err, res){
+    dbOption.select(param, function(err, res){
         res.send(err || res);
     });
 });
