@@ -75,9 +75,14 @@ app.post("/update_word", upload.array(), function(req, res){
     console.log("Somebody want update a word: " + req.body.word_id);
     
     var data = req.body, 
-        param = ['word_tb', [], []];
+        param = ['word_tb', [], [], [], []];
     delete data.create_time;
     delete data.update_time;
+    
+    param[3].push("word_id");
+    param[4].push(data.word_id);
+    
+    delete data.word_id;
     for(var p in data){
         param[1].push(p);
         param[2].push(data[p]);
