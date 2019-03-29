@@ -83,7 +83,7 @@ app.post("/update_word", upload.array(), function(req, res){
         param[2].push(data[p]);
     }
 
-    dbOption.delete(param, function(error, result){
+    dbOption.update(param, function(error, result){
         res.send(error || result);
     });
 });
