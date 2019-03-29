@@ -94,7 +94,7 @@ new Vue({
         getWords: function(){
             var that = this;
             this.$http.post('/get_words', 
-            {start: 1,//从第一页开始
+            {start: 0,//从第一页开始
              pages: 1,//只返回一页
              number: 10}, //每页十个单词
             {emulateJSON:true}).then(
