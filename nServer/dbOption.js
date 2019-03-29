@@ -124,6 +124,7 @@ function dbOption(){
         }
     }
 
+    console.log(sql);
     connection.query(sql, function(error, result){
         callback(error, result);
 
