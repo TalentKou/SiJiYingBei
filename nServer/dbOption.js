@@ -1,4 +1,4 @@
-//只服务于数据库操作
+//数据库操作模块
 var mysql=require("mysql");
 
 var connection=mysql.createConnection({
@@ -98,7 +98,10 @@ function dbOption(){
 
   //查找指定数据
   /*参数说明:
-   *data = [table_name, //表名
+   *data = [table_name, //表名 
+   *        start,
+   *        pages,
+   *        wor
    *        [field1, field2, field3, ...], //查找字段名 
    *        [value1, value2, value3, ...]]; //查找字段值
    *callback = function(error, result){}; //回调函数：参数传回为数据库模块返回的不加修改的值。
