@@ -99,23 +99,29 @@ function dbOption(){
   //查找指定数据
   /*参数说明:
    *data = [table_name, //表名 
-   *        start,
-   *        pages,
-   *        wor
-   *        [field1, field2, field3, ...], //查找字段名 
-   *        [value1, value2, value3, ...]]; //查找字段值
+   *        start, //开始页数, 必须>=0，且start=0为第一页
+   *        pages, //查询页数, 必须>=0，且pages=0表示查询从start开始的所有数据
+   *        number, //每页单词数，必须>=1
+   *@useless[field1, field2, field3, ...], //查找字段名 
+   *@useless[value1, value2, value3, ...]]; //查找字段值
    *callback = function(error, result){}; //回调函数：参数传回为数据库模块返回的不加修改的值。
    */
   this.select = function(data, callback){
 
-    var sql='SELECT * FROM ' + data[0];
-
-    if(data.length > 1 && data[1].length >= 1){
-        sql +=  ' WHERE ';
-        for(var i in data[1]){
-            sql += data[1][i] + '=' + data[2][i] + ' AND ';
-       }
-       sql = sql.substr(0, sql.length-5);
+    var sql = '';
+    if(data[1] == 0){
+        if(data[2] == 0){
+            sql = 'SELECT * FROM ' + data[0];
+        }else{
+            sql = 'SELECT * FROM ' + data[0] + 'WHERE ROWNUM<=' + data[2]*data[3];
+        }
+    }else{
+        if(data[2] == 0){
+            sql = 'SELECT * FROM ' + data[0] + 'WHERE ROWNUM>' + data[1]*data[3]
+        }else{
+            sql = 'SELECT * FROM (SELECT * FROM ' + data[0] + 'WHERE ROWNUM>' + 
+            data[1]*data[3] + ') WHERE ROWNUM<=' + data[2]*data[3];
+        }
     }
 
     connection.query(sql, function(error, result){
