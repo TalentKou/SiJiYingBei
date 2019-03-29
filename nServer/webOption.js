@@ -30,6 +30,10 @@ app.get("/vue.min.js", function(req, res){
     console.log("Somebody accessed" + req.url);
     res.sendFile(mainDir + "node_modules/vue/dist/vue.min.js");
 });
+app.get("/vue-resource.min.js", function(req, res){
+    console.log("Somebody accessed" + req.url);
+    res.sendFile(mainDir + "node_modules/vue-resource/dist/vue-resource.min.js");
+});
 
 //请求添加新单词
 app.post("/add_word", upload.array(), function(req, res){
