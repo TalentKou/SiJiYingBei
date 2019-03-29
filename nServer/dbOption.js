@@ -1,4 +1,4 @@
-//数据库操作模块
+//只服务于数据库操作
 var mysql=require("mysql");
 
 var connection=mysql.createConnection({
