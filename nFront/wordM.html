@@ -39,7 +39,8 @@
                 <td><input v-model="word.rel_juzi_ids"/></td>
                 <td><input v-model="word.rel_grm_ids"/></td>
                 <td><input v-model="word.notes"/></td>
-                <td><button type="button" @click="addWord">添加</button></td>
+                <td><button v-if="word.word_id == 0" type="button" @click="addWord">添加</button>
+                    <button v-if="word.word_id != 0" type="button" @click="submitUpdate">提交</button></td>
             </tr>
             <tr v-for="(wd, index) in words">
                     <td>{{index + 1}}</td>
