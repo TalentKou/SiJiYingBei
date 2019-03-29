@@ -120,7 +120,7 @@ function dbOption(){
             sql = 'SELECT * FROM ' + data[0] + ' WHERE ROWNUM>' + data[1]*data[3]
         }else{
             sql = 'SELECT * FROM (SELECT * FROM ' + data[0] + ' WHERE ROWNUM>' + 
-            data[1]*data[3] + ') WHERE ROWNUM<=' + data[2]*data[3];
+            data[1]*data[3] + ') AS midd_tb WHERE ROWNUM<=' + data[2]*data[3];
         }
     }
 
