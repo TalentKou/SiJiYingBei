@@ -113,14 +113,14 @@ function dbOption(){
         if(data[2] == 0){
             sql = 'SELECT * FROM ' + data[0];
         }else{
-            sql = 'SELECT * FROM ' + data[0] + ' WHERE ROWNUM<=' + data[2]*data[3];
+            sql = 'SELECT * FROM ' + data[0] + ' WHERE ROWNUM <= ' + data[2]*data[3];
         }
     }else{
         if(data[2] == 0){
-            sql = 'SELECT * FROM ' + data[0] + ' WHERE ROWNUM>' + data[1]*data[3]
+            sql = 'SELECT * FROM ' + data[0] + ' WHERE ROWNUM > ' + data[1]*data[3]
         }else{
-            sql = 'SELECT * FROM (SELECT * FROM ' + data[0] + ' WHERE ROWNUM>' + 
-            data[1]*data[3] + ') AS midd_tb WHERE ROWNUM<=' + data[2]*data[3];
+            sql = 'SELECT * FROM (SELECT * FROM ' + data[0] + ' WHERE ROWNUM > ' + 
+            data[1]*data[3] + ') AS midd_tb WHERE ROWNUM <= ' + data[2]*data[3];
         }
     }
 
