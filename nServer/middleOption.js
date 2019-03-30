@@ -51,6 +51,43 @@ function middleOption(){
         });
     }
 
+    //检查大量数据是否存在
+    /*参数说明
+     *target，目标数组:[[word_id1, word_id2, word_id3, ...],
+     *                 [sentc_id1, sentc_id2, sentc_id3, ...],
+     *                 [gram_id1, gram_id2, gram_id3, ...]]
+     *callback = function(exists){}; 参数为一个与target类似的存在ids的数组。
+     */
+    this.checkExistc = function(target, callback){
+        var sum = target[0].length + target[1].length + target[2].length;
+        for(var i = 0; i < 3; i++){
+            for(var j = 0; j < target[i].length; j++){
+                (function(){
+                    var ii = i, jj = j;
+                    dbOption.selectById(ii, target[ii][jj], function(error, result){
+                        if(error || !result){
+                            target[ii][jj] = -1;
+                        }
+
+                        --sum;
+                        if(sum <= 0){
+                            for(var m = 0; m < 3; m++){
+                                for(var n = 0; n < target[m].length;){
+                                    if(target[m][n] == -1){
+                                        target[m].splice(n, 1);
+                                    }else{
+                                        ++n;
+                                    }
+                                }
+                            }
+                            callback(target);
+                        }
+                    });
+                })()
+            }
+        }
+        
+    };
     
     
     //修改关联信息
