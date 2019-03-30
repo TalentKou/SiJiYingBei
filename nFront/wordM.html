@@ -26,8 +26,8 @@
                 <td>操作</td>
             </tr>
             <tr>
-                <td>2468</td>
-                <td>0</td>
+                <td></td>
+                <td>{{word.word_id||'新词'}}</td>
                 <td>
                     <select v-model="word.word_type" name="word_type">
                         <option v-for="w_type in WORD_TYPES" :value="w_type.id">{{w_type.name}}</option>
@@ -40,7 +40,8 @@
                 <td><input v-model="word.rel_grm_ids"/></td>
                 <td><input v-model="word.notes"/></td>
                 <td><button v-if="word.word_id == 0" type="button" @click="addWord">添加</button>
-                    <button v-if="word.word_id != 0" type="button" @click="submitUpdate">提交</button></td>
+                    <button v-if="word.word_id != 0" type="button" @click="submitUpdate">提交</button>
+                    <button type="button" @click="getWords">刷新</button></td>
             </tr>
             <tr v-for="(wd, index) in words">
                     <td>{{index + 1}}</td>
@@ -59,6 +60,13 @@
                         <button type="button" @click="updateWord(index)">修改</button>
                         <button type="button" @click="deleteWord(wd.word_id)">删除</button>
                     </td>
+            </tr>
+            <tr>
+                <td colspan="10">
+                    <button type="button" @click="pageUp" v-if="pagin.start > 0">上一页</button>
+                    <span>第{{pagin.start+1}}页</span>
+                    <button type="button" @click="pageDown" v-if="words.length >= pagin.number">下一页</button>
+                </td>
             </tr>
         </table>
         <script src="vue.min.js"></script>
