@@ -70,11 +70,11 @@ function middleOption(){
         if(newRelIds.length > 0){
 
             //添加关联
-            addRelevs(relType, newRelIds, type, id, function(error){
+            addOrRemvRelevs(0, relType, newRelIds, type, id, function(error){
                 if(!error && dumpRelIds.length > 0){
 
                     //移除关联
-                    removeRelevs(relType, newRelIds, type, id);
+                    addOrRemvRelevs(1, relType, dumpRelIds, type, id);
                 }
             });
         }
@@ -93,6 +93,7 @@ function middleOption(){
 
    function addOrRemvRelevs(opt, type, ids, relType, relId, callback){
     var fieldName = '';
+    relId += '';
     switch(relType){
         case 0: fieldName = 'rel_wd_ids';break;
         case 1: fieldName = 'rel_juzi_ids';break;
@@ -115,7 +116,6 @@ function middleOption(){
                     }else{
                         var tempStr = ',' + observ[fieldName] + ',';
                         var index = tempStr.indexOf(',' + relId + ',');
-                        relId += '';
                         if(index = 0){
                             observ[fieldName] = tempStr.substr(relId.length + 2);
                         }else if(index == (tempStr.length - relId.length - 2)){
