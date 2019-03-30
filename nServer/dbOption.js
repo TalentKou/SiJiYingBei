@@ -153,7 +153,7 @@ function dbOption(){
     sql += '=' + id;
 
     connection.query(sql, function(error, result){
-        callback&&callback(error, result, tableName, fieldName);
+        callback&&callback(error, result&&result[0], tableName, fieldName);
 
         if(error){
             console.log('[FROM DATABASE: SELECT ERROR] - ',error.message);

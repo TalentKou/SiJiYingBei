@@ -34,7 +34,7 @@ function middleOption(){
                 return;
             }
             
-            var observ = result.body,
+            var observ = result,
                 curRelIds = observ[fieldName].split(','); //当前已关联IDs
             for(var i in relIds){
                 if(curRelIds.indexOf(relIds[i]) < 0){
@@ -122,7 +122,7 @@ function middleOption(){
                        return;
                     }
     
-                    var observ = result.body;
+                    var observ = result;
                     if(opt == 0){
                         observ[fieldName] += ',' + relId;
                     }else{
