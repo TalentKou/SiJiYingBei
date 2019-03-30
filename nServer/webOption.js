@@ -61,63 +61,52 @@ app.post("/add_word", upload.array(), function(req, res){
     var data = req.body, 
         param = ['word_tb', [], []];
 
-    delete data.word_id;
-    delete data.create_time;
-    delete data.update_time;
-    for(var p in data){
-        param[1].push(p);
-        param[2].push(data[p]);
-    }
-
-    dbOption.insert(param, function(error, result){
-        if(!error){
-            var state = 0;
-            if(data.rel_wd_ids.length > 0){
-                middleOption.updateRelevs(0, result.insertId, 0, data.rel_wd_ids.split(','), 
-                function(){
-                    state += 1;
-                    if(state == 111){
-                        res.send(result);
-                    }
-                });
-            }else{
-                state += 1;
-                if(state == 111){
-                    res.send(result);
-                }
-            }
-            if(data.rel_juzi_ids.length > 0){
-                middleOption.updateRelevs(0, result.insertId, 1, data.rel_juzi_ids.split(','), 
-                function(){
-                    state += 10;
-                    if(state == 111){
-                        res.send(result);
-                    }
-                });
-            }else{
-                state += 10;
-                if(state == 111){
-                    res.send(result);
-                }
-            }
-            if(data.rel_grm_ids.length > 0){
-                middleOption.updateRelevs(0, result.insertId, 2, data.rel_grm_ids.split(','), 
-                function(){
-                    state += 100;
-                    if(state == 111){
-                        res.send(result);
-                    }
-                });
-            }else{
-                state += 100;
-                if(state == 111){
-                    res.send(result);
-                }
-            }
-        }else{
-            res.send(error);
-        }
+    middleOption.checkExistc([data.rel_wd_ids.split(','),
+    data.rel_juzi_ids.split(','),
+    data.rel_grm_ids.split(',')], function(exists){
+        data.rel_wd_ids = exists[0].join(',');
+        data.rel_juzi_ids = exists[1].join(',');
+        data.rel_grm_ids = exists[2].join(',');
+        process();
     });
+
+    function process(){
+        delete data.word_id;
+        delete data.create_time;
+        delete data.update_time;
+        for(var p in data){
+            param[1].push(p);
+            param[2].push(data[p]);
+        }
+
+        dbOption.insert(param, function(error, result){
+            var state = 0;
+            if(!error){
+                littleProc(0, data.rel_wd_ids);
+                littleProc(1, data.rel_juzi_ids);
+                littleProc(2, data.rel_grm_ids);
+            }else{
+                res.send(error);
+            }
+
+            function littleProc(tp, ids){
+                if(ids.length > 0){
+                    middleOption.updateRelevs(0, result.insertId, tp, ids.split(','), 
+                    function(){
+                        state += 1;
+                        if(state >= 3){
+                            res.send(result);
+                        }
+                    });
+                }else{
+                    state += 1;
+                    if(state >= 3){
+                        res.send(result);
+                    }
+                }
+            }
+        });
+    }
 });
 
 //请求删除单词
