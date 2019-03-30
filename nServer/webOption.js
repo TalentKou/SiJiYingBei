@@ -66,7 +66,7 @@ app.post("/add_word", upload.array(), function(req, res){
     data.rel_grm_ids.split(',')], function(exists){
         data.rel_wd_ids = exists[0].join(',');
         data.rel_juzi_ids = exists[1].join(',');
-        data.rel_grm_ids = exists[2].join(',');
+        data.rel_grm_ids = exists[2].join(',');console.log("ids__________" + data.rel_juzi_ids);
         process();
     });
 

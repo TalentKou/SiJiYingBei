@@ -151,7 +151,7 @@ function dbOption(){
     }
 
     sql += '=' + id;
-
+console.log(sql);
     connection.query(sql, function(error, result){
         callback&&callback(error, result&&result[0], tableName, fieldName);
 

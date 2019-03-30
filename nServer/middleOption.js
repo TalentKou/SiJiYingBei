@@ -174,7 +174,6 @@ function middleOption(){
                             observ[fieldName] = tempStr.substr(1, tempStr.length - 2);
                         }
                     }
-
                     dbOption.update([tableName, [fieldName], [observ[fieldName]], [idFieldName], [cId]],
                         function(){
                             callback&&callback();
