@@ -134,6 +134,36 @@ function dbOption(){
         console.log('[FROM DATABASE: SELECT SUCCEED]');
     });
   };
+  
+  //根据ID查找指定数据
+  /*参数说明:
+   *data = [table_name, //表名 
+   *        table_type, //表类型：0，单词；1，句子；2，语法。
+   *        id] //查询ID
+   *callback = function(error, result){}; //回调函数：参数传回为数据库模块返回的不加修改的值。
+   */
+  this.selectById = function(data, callback){
+
+    var sql = 'SELECT * FROM ' + data[0] + ' WHERE ';
+    switch(data[1]){
+        case 0: sql += 'word_id';break;
+        case 1: sql += 'sentc_id';break;
+        case 2: sql += 'gram_id';break;
+    }
+
+    sql += '=' + data[2];
+
+    connection.query(sql, function(error, result){
+        callback(error, result);
+
+        if(error){
+            console.log('[FROM DATABASE: SELECT ERROR] - ',error.message);
+            return;
+        }
+
+        console.log('[FROM DATABASE: SELECT SUCCEED]');
+    });
+  };
 }
 
 module.exports = dbOption;
