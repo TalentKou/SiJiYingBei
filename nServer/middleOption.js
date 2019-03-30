@@ -16,7 +16,10 @@ function middleOption(){
                         dumpRelIds){}; //销毁关联IDs
    */
     function relevsCheck(type, id, relType, relIds, callback){
-        var fieldName = '';
+        var fieldName = '',
+        newRelIds = [], //新增关联IDs
+        dumpRelIds = []; //销毁关联IDs
+
         switch(relType){
             case 0: fieldName = 'rel_wd_ids';break;
             case 1: fieldName = 'rel_juzi_ids';break;
@@ -32,8 +35,6 @@ function middleOption(){
             }
 
             var observ = result.body,
-                newRelIds = [], //新增关联IDs
-                dumpRelIds = [], //销毁关联IDs
                 curRelIds = observ[fieldName].split(','); //当前已关联IDs
             for(var i in relIds){
                 if(curRelIds.indexOf(relIds[i]) < 0){
@@ -61,22 +62,26 @@ function middleOption(){
    *callback = function(error, result){}; //回调函数：参数传回为数据库模块返回的不加修改的值。
    */
   this.updateRelevs = function(type, id, relType, relIds, callback){
-      
+    
     //第一步：检查关联情况
     relevsCheck(type, id, relType, relIds, function(error, newRelIds, dumpRelIds){
-        //回调到调用者，让调用者改变自己的关联ID，剩下的关联交给中间操作处理。
-        callback(error);
 
-        if(newRelIds.length > 0){
+        if(!error && newRelIds.length > 0){
 
             //添加关联
             addOrRemvRelevs(0, relType, newRelIds, type, id, function(error){
                 if(!error && dumpRelIds.length > 0){
 
                     //移除关联
-                    addOrRemvRelevs(1, relType, dumpRelIds, type, id);
+                    addOrRemvRelevs(1, relType, dumpRelIds, type, id, function(){
+                        callback();
+                    });
+                }else{
+                    callback();
                 }
             });
+        }else{
+            callback(error);
         }
     });
 };
@@ -99,6 +104,13 @@ function middleOption(){
         case 1: fieldName = 'rel_juzi_ids';break;
         case 2: fieldName = 'rel_grm_ids';break;
     }
+
+    if(ids instanceof String){
+        ids = ids.split(',');
+    }
+
+    if(ids.length <= 0){callback&&callback();}
+
        //轮流查询关联者
        for(var i in ids){
            (function(){
@@ -126,7 +138,10 @@ function middleOption(){
                         }
                     }
 
-                    dbOption.update([tableName, [fieldName], [observ[fieldName]], [idFieldName], [cId]]);
+                    dbOption.update([tableName, [fieldName], [observ[fieldName]], [idFieldName], [cId]],
+                        function(){
+                            callback&&callback();
+                        });
                 });
             })();
        }
