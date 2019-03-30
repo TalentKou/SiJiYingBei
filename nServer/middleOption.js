@@ -81,8 +81,9 @@ function middleOption(){
     });
 };
 
-//添加关联
+//添加或移除关联
 /*参数说明:
+   *opt, //0，添加；1，移除
    *type, //关联者类型：0，单词；1，句子；2，语法。
    *ids, //关联者们IDs
    *relType, //被关联者类型：0，单词；1，句子；2，语法。
@@ -90,7 +91,7 @@ function middleOption(){
    *callback = function(error, result){}; //回调函数：参数传回为数据库模块返回的不加修改的值。
    */
 
-   function addRelevs(type, ids, relType, relId, callback){
+   function addOrRemvRelevs(opt, type, ids, relType, relId, callback){
     var fieldName = '';
     switch(relType){
         case 0: fieldName = 'rel_wd_ids';break;
@@ -104,16 +105,30 @@ function middleOption(){
                dbOption.selectById(type, cId, function(error, result, tableName, idFieldName){
                    if(error){
                        console.log('[FROM DATABASE: relevant NOT FOUND]');
-                       callback(error);
+                       callback&&callback(error);
                        return;
                     }
     
                     var observ = result.body;
-                    observ[fieldName] += ',' + relId;
+                    if(opt == 0){
+                        observ[fieldName] += ',' + relId;
+                    }else{
+                        var tempStr = ',' + observ[fieldName] + ',';
+                        var index = tempStr.indexOf(',' + relId + ',');
+                        relId += '';
+                        if(index = 0){
+                            observ[fieldName] = tempStr.substr(relId.length + 2);
+                        }else if(index == (tempStr.length - relId.length - 2)){
+                            observ[fieldName] = tempStr.substr(1, tempStr.length - relId.length - 3);
+                        }else{
+                            tempStr = tempStr.split(',' + relId + ',').join(',');
+                            observ[fieldName] = tempStr.substr(1, tempStr.length - 2);
+                        }
+                    }
 
                     dbOption.update([tableName, [fieldName], [observ[fieldName]], [idFieldName], [cId]]);
                 });
-    })();
+            })();
        }
        
    }
