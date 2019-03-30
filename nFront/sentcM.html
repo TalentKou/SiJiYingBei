@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <title>数据管理系统0.2</title>
+    </head>
+    <body>
+        <div>句子管理界面</div>
+        <div>
+            <a href="wordM.html">单词管理</a>
+            <!--a href="sentcM.html">句子管理</a-->
+            <a href="gramM.html">语法管理</a>
+        </div>
+        <table id="sentcM">
+            <tr>
+                <td>序号</td>
+                <td>ID</td>
+                <td>日语句子</td>
+                <td>中文翻译</td>
+                <td>关联句IDs</td>
+                <td>关联词IDs</td>
+                <td>关联语法IDs</td>
+                <td>备注</td>
+                <td>操作</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{sentence.sentc_id||'新句'}}</td>
+                <td><input v-model="sentence.sentc_self"/></td>
+                <td><input v-model="sentence.sentc_meang"/></td>
+                <td><input v-model="sentence.rel_juzi_ids"/></td>
+                <td><input v-model="sentence.rel_wd_ids"/></td>
+                <td><input v-model="sentence.rel_grm_ids"/></td>
+                <td><input v-model="sentence.notes"/></td>
+                <td><button v-if="sentence.sentc_id == 0" type="button" @click="addSentc">添加</button>
+                    <button v-if="sentence.sentc_id != 0" type="button" @click="submitUpdate">提交</button>
+                    <button type="button" @click="getSentcs">刷新</button></td>
+            </tr>
+            <tr v-for="(sentc, index) in sentences">
+                    <td>{{index + 1}}</td>
+                    <td>{{sentc.sentc_id}}</td>
+                    <td>{{sentc.sentc_self}}</td>
+                    <td>{{sentc.sentc_meang}}</td>
+                    <td>{{sentc.rel_juzi_ids}}</td>
+                    <td>{{sentc.rel_wd_ids}}</td>
+                    <td>{{sentc.rel_grm_ids}}</td>
+                    <td>{{sentc.notes}}</td>
+                    <td>
+                        <button type="button" @click="updateSentc(index)">修改</button>
+                        <button type="button" @click="deleteSentc(sentc.sentc_id)">删除</button>
+                    </td>
+            </tr>
+            <tr>
+                <td colspan="10">
+                    <button type="button" @click="pageUp" v-if="pagin.start > 0">上一页</button>
+                    <span>第{{pagin.start+1}}页</span>
+                    <button type="button" @click="pageDown" v-if="sentences.length >= pagin.number">下一页</button>
+                </td>
+            </tr>
+        </table>
+        <script src="vue.min.js"></script>
+        <script src="vue-resource.min.js"></script>
+        <script src="sentcM.js"></script>
+    </body>
+</html>
