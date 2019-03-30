@@ -135,23 +135,23 @@ function dbOption(){
     });
   };
   
+
   //根据ID查找指定数据
   /*参数说明:
-   *data = [table_name, //表名 
-   *        table_type, //表类型：0，单词；1，句子；2，语法。
-   *        id] //查询ID
+   *table_type, //表类型：0，单词；1，句子；2，语法。
+   *        id, //查询ID
    *callback = function(error, result){}; //回调函数：参数传回为数据库模块返回的不加修改的值。
    */
-  this.selectById = function(data, callback){
+  this.selectById = function(table_type, id, callback){
 
-    var sql = 'SELECT * FROM ' + data[0] + ' WHERE ';
-    switch(data[1]){
-        case 0: sql += 'word_id';break;
-        case 1: sql += 'sentc_id';break;
-        case 2: sql += 'gram_id';break;
+    var sql = 'SELECT * FROM ';
+    switch(table_type){
+        case 0: sql += 'word_tb WHERE word_id';break;
+        case 1: sql += 'sentence_tb WHERE sentc_id';break;
+        case 2: sql += 'grammar_tb WHERE gram_id';break;
     }
 
-    sql += '=' + data[2];
+    sql += '=' + id;
 
     connection.query(sql, function(error, result){
         callback(error, result);
