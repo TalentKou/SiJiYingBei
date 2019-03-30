@@ -30,7 +30,7 @@ function dbOption(){
     connection.query(sql, data[2],
         function(error, result){
             
-            callback(error, result);
+            callback&&callback(error, result);
 
             if(error){
                 console.log('[FROM DATABASE: INSERT ERROR] - ',error.message);
@@ -58,7 +58,7 @@ function dbOption(){
     sql = sql.substr(0, sql.length-5);
 
     connection.query(sql, function(error, result){
-        callback(error, result);
+        callback&&callback(error, result);
 
         if(error){
             console.log('[FROM DATABASE: DELETE ERROR] - ',error.message);
@@ -85,7 +85,7 @@ function dbOption(){
     connection.query(sql, data[2].concat(data[4]),
         function(error, result){
             
-            callback(error, result);
+            callback&&callback(error, result);
 
             if(error){
                 console.log('[FROM DATABASE: UPDATE ERROR] - ',error.message);
@@ -124,7 +124,7 @@ function dbOption(){
     }
 
     connection.query(sql, function(error, result){
-        callback(error, result);
+        callback&&callback(error, result);
 
         if(error){
             console.log('[FROM DATABASE: SELECT ERROR] - ',error.message);
@@ -134,27 +134,26 @@ function dbOption(){
         console.log('[FROM DATABASE: SELECT SUCCEED]');
     });
   };
-  
 
   //根据ID查找指定数据
   /*参数说明:
    *table_type, //表类型：0，单词；1，句子；2，语法。
    *        id, //查询ID
-   *callback = function(error, result){}; //回调函数：参数传回为数据库模块返回的不加修改的值。
+   *callback = function(error, result, tableName, fieldName){}; //回调函数：参数传回为数据库模块返回的不加修改的值。
    */
   this.selectById = function(table_type, id, callback){
 
-    var sql = 'SELECT * FROM ';
+    var sql = 'SELECT * FROM ', tableName = '', fieldName = '';
     switch(table_type){
-        case 0: sql += 'word_tb WHERE word_id';break;
-        case 1: sql += 'sentence_tb WHERE sentc_id';break;
-        case 2: sql += 'grammar_tb WHERE gram_id';break;
+        case 0: sql += (tableName='word_tb') + ' WHERE ' + (fieldName='word_id');break;
+        case 1: sql += (tableName='sentence_tb') + ' WHERE ' + (fieldName='sentc_id');break;
+        case 2: sql += (tableName='grammar_tb') + ' WHERE ' + (fieldName='gram_id');break;
     }
 
     sql += '=' + id;
 
     connection.query(sql, function(error, result){
-        callback(error, result);
+        callback&&callback(error, result, tableName, fieldName);
 
         if(error){
             console.log('[FROM DATABASE: SELECT ERROR] - ',error.message);
