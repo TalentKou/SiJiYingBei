@@ -26,7 +26,7 @@ new Vue({
     methods: {
         //添加新句子
         addSentc: function(){
-            var sentc = this.sentc;
+            var sentc = this.sentence;
             if(sentc.sentc_self.trim() == '' ||
                sentc.sentc_meang.trim() == ''){
 				alert("请输入完整的日语句子和中文翻译!");
