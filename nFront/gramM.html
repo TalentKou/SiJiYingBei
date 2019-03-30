@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <title>数据管理系统0.2</title>
+    </head>
+    <body>
+        <div>语法管理界面</div>
+        <div>
+            <a href="wordM.html">单词管理</a>
+            <a href="sentcM.html">句子管理</a>
+            <!--a href="gramM.html">语法管理</a-->
+        </div>
+        <table id="gramM">
+            <tr>
+                <td>序号</td>
+                <td>ID</td>
+                <td>语法名称</td>
+                <td>语法详情</td>
+                <td>关联语法IDs</td>
+                <td>关联句IDs</td>
+                <td>关联词IDs</td>
+                <td>备注</td>
+                <td>操作</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>{{grammar.gram_id||'新语法'}}</td>
+                <td><input v-model="grammar.gram_title"/></td>
+                <td><input v-model="grammar.gram_detail"/></td>
+                <td><input v-model="grammar.rel_grm_ids"/></td>
+                <td><input v-model="grammar.rel_juzi_ids"/></td>
+                <td><input v-model="grammar.rel_wd_ids"/></td>
+                <td><input v-model="grammar.notes"/></td>
+                <td><button v-if="grammar.gram_id == 0" type="button" @click="addGram">添加</button>
+                    <button v-if="grammar.gram_id != 0" type="button" @click="submitUpdate">提交</button>
+                    <button type="button" @click="getGrams">刷新</button></td>
+            </tr>
+            <tr v-for="(gram, index) in grammars">
+                    <td>{{index + 1}}</td>
+                    <td>{{gram.gram_id}}</td>
+                    <td>{{gram.gram_title}}</td>
+                    <td>{{gram.gram_detail}}</td>
+                    <td>{{gram.rel_grm_ids}}</td>
+                    <td>{{gram.rel_juzi_ids}}</td>
+                    <td>{{gram.rel_wd_ids}}</td>
+                    <td>{{gram.notes}}</td>
+                    <td>
+                        <button type="button" @click="updateGram(index)">修改</button>
+                        <button type="button" @click="deleteGram(gram.gram_id)">删除</button>
+                    </td>
+            </tr>
+            <tr>
+                <td colspan="10">
+                    <button type="button" @click="pageUp" v-if="pagin.start > 0">上一页</button>
+                    <span>第{{pagin.start+1}}页</span>
+                    <button type="button" @click="pageDown" v-if="grammars.length >= pagin.number">下一页</button>
+                </td>
+            </tr>
+        </table>
+        <script src="vue.min.js"></script>
+        <script src="vue-resource.min.js"></script>
+        <script src="gramM.js"></script>
+    </body>
+</html>
