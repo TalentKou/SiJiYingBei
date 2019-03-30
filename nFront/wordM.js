@@ -27,8 +27,16 @@ new Vue({
             notes: '',
         },
         words: [],
+        pagin: {
+            start: 0,//从第一页开始
+            pages: 1,//只返回一页
+            number: 10, //每页十个单词
+        },
         WORD_TYPES: CONST_WORD_TYPES
     },
+	beforeMount: function(){
+		this.getWords();
+	},
     methods: {
         //添加新单词
         addWord: function(){
@@ -93,10 +101,7 @@ new Vue({
         //查询单词
         getWords: function(){
             var that = this;
-            this.$http.post('/get_words', 
-            {start: 0,//从第一页开始
-             pages: 1,//只返回一页
-             number: 10}, //每页十个单词
+            this.$http.post('/get_words', this.pagin,
             {emulateJSON:true}).then(
                 function(res){
                     that.words = res.body;
@@ -104,6 +109,18 @@ new Vue({
                 },function(res){
                     console.log(res);
                 });
+        },
+
+        //向上翻页
+        pageUp:function(){
+            --this.pagin.start;
+            this.getWords();
+        },
+
+        //向下翻页
+        pageDown:function(){
+            ++this.pagin.start;
+            this.getWords();
         },
 
         //重置word对象
