@@ -34,8 +34,6 @@ function middleOption(){
                 return;
             }
             
-            console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-            console.log(type + ' ^^^ ' + id + " ^^^ " + result);
             var observ = result.body,
                 curRelIds = observ[fieldName].split(','); //当前已关联IDs
             for(var i in relIds){
