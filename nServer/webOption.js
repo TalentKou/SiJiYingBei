@@ -1,5 +1,6 @@
 //webOption.js
 var dbOption = new (require("./dbOption"))();
+var middleOption = new (require("./middleOption"))();
 var express=require("express");
 var bodyParser=require("body-parser");
 
@@ -59,6 +60,7 @@ app.post("/add_word", upload.array(), function(req, res){
     
     var data = req.body, 
         param = ['word_tb', [], []];
+
     delete data.word_id;
     delete data.create_time;
     delete data.update_time;
@@ -68,7 +70,53 @@ app.post("/add_word", upload.array(), function(req, res){
     }
 
     dbOption.insert(param, function(error, result){
-        res.send(error || result);
+        if(!error){
+            var state = 0;
+            if(data.rel_wd_ids.length > 0){
+                middleOption.updateRelevs(0, result.insertId, 0, data.rel_wd_ids.split(','), 
+                function(){
+                    state += 1;
+                    if(state == 111){
+                        res.send(result);
+                    }
+                });
+            }else{
+                state += 1;
+                if(state == 111){
+                    res.send(result);
+                }
+            }
+            if(data.rel_juzi_ids.length > 0){
+                middleOption.updateRelevs(0, result.insertId, 1, data.rel_juzi_ids.split(','), 
+                function(){
+                    state += 10;
+                    if(state == 111){
+                        res.send(result);
+                    }
+                });
+            }else{
+                state += 10;
+                if(state == 111){
+                    res.send(result);
+                }
+            }
+            if(data.rel_grm_ids.length > 0){
+                middleOption.updateRelevs(0, result.insertId, 2, data.rel_grm_ids.split(','), 
+                function(){
+                    state += 100;
+                    if(state == 111){
+                        res.send(result);
+                    }
+                });
+            }else{
+                state += 100;
+                if(state == 111){
+                    res.send(result);
+                }
+            }
+        }else{
+            res.send(error);
+        }
     });
 });
 
