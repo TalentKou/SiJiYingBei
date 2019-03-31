@@ -39,8 +39,8 @@ new Vue({
         relevid: {
           // 指令的定义
           inserted: function (el) {
-            el.onkeyup = "value=value.replace(/[^1-9\,]/g,'')";
-            el.onblur = "value=value.replace(/[^1-9\,]/g,'')";
+            el.setAttribute('onkeyup', 'value=value.replace(/[^1-9\,]/g,"")');
+            el.setAttribute('onblur', 'value=value.replace(/[^1-9\,]/g,"")');
           }
         }
     },
