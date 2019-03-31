@@ -34,6 +34,15 @@ new Vue({
         },
         WORD_TYPES: CONST_WORD_TYPES
     },
+    directives: {
+        // 注册一个局部的自定义指令 v-relevid
+        relevid: {
+          // 指令的定义
+          inserted: function (el) {
+            el.focus()
+          }
+        }
+    },
 	beforeMount: function(){
 		this.getWords();
 	},
