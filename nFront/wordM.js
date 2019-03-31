@@ -41,7 +41,7 @@ new Vue({
           inserted: function (el) {
             el.onkeyup = function(elem){
 		var value = elem.target.value,
-		    key = elem.key;	
+		    key = value[value.length - 1];	
 		//输入只能是数字和逗号    
 		if(isNaN(new Number(key)) && key != ','){
 		    elem.target.value = value.substr(0, value.length - 1);
