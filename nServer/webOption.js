@@ -59,69 +59,28 @@ app.post("/add_word", upload.array(), function(req, res){
     console.log("Somebody want add new word: " + req.body.word_self);
     
     var data = req.body, 
-        param = ['word_tb', [], []];
+        param = ['word_tb', [
+            "word_type",
+            "word_self",
+            "word_meang",
+            "notes"
+        ], []];
 
-    middleOption.checkExistc([
-    data.rel_wd_ids.trim().length <= 0 ? [] : data.rel_wd_ids.split(','),
-    data.rel_juzi_ids.trim().length <= 0 ? [] : data.rel_juzi_ids.split(','),
-    data.rel_grm_ids.trim().length <= 0 ? [] : data.rel_grm_ids.split(',')], 
-    function(exists){
-        data.rel_wd_ids = exists[0].join(',');
-        data.rel_juzi_ids = exists[1].join(',');
-        data.rel_grm_ids = exists[2].join(',');
-        process();
-    });
-
-    function process(){
-        delete data.word_id;
-        delete data.create_time;
-        delete data.update_time;
-        for(var p in data){
-            param[1].push(p);
-            param[2].push(data[p]);
+        for(var i in param[1]){
+            param[2].push(data[param[1][i]]||'');
         }
 
         dbOption.insert(param, function(error, result){
-            var state = 0;
-            if(!error){
-                littleProc(0, data.rel_wd_ids);
-                littleProc(1, data.rel_juzi_ids);
-                littleProc(2, data.rel_grm_ids);
-            }else{
-                res.send(error);
-            }
-
-            function littleProc(tp, ids){
-                if(ids.length > 0){
-                    console.log("call middleOption.updateRelevs:"+0+':'+result.insertId+':'+tp+':'+ids.split(','));
-                    middleOption.updateRelevs(0, result.insertId, tp, ids.split(','), 
-                    function(){
-                        state += 1;
-                        if(state >= 3){
-                            res.send(result);
-                        }
-                    }, true);
-                }else{
-                    state += 1;
-                    if(state >= 3){
-                        res.send(result);
-                    }
-                }
-            }
+            res.send(error || result);
         });
     }
-});
+);
 
 //请求删除单词
 app.post("/del_word", upload.array(), function(req, res){
     console.log("Somebody want delete a word: " + req.body.word_id);
     
-    var data = req.body, 
-        param = ['word_tb', [], []];
-    for(var p in data){
-        param[1].push(p);
-        param[2].push(data[p]);
-    }
+    var param = ['word_tb', ['word_id'], [req.body.word_id]];
 
     dbOption.delete(param, function(error, result){
         res.send(error || result);
@@ -133,17 +92,15 @@ app.post("/update_word", upload.array(), function(req, res){
     console.log("Somebody want update a word: " + req.body.word_id);
     
     var data = req.body, 
-        param = ['word_tb', [], [], [], []];
-    delete data.create_time;
-    delete data.update_time;
+        param = ['word_tb', [
+            "word_type",
+            "word_self",
+            "word_meang",
+            "notes"
+        ], [], ["word_id"], [data.word_id]];
     
-    param[3].push("word_id");
-    param[4].push(data.word_id);
-    
-    delete data.word_id;
-    for(var p in data){
-        param[1].push(p);
-        param[2].push(data[p]);
+    for(var i in param[1]){
+        param[2].push(data[param[1][i]]||'');
     }
 
     dbOption.update(param, function(error, result){
@@ -156,12 +113,24 @@ app.post("/get_words", upload.array(), function(req, res){
     console.log("Somebody want get some words: " + req.body.number * req.body.pages);
     
     var data = req.body, 
-        param = ['word_tb'];
-    for(var p in data){
-        param.push(data[p]);
-    }
+        param = ['word_tb', 
+        data.start || 0, 
+        data.pages || 0, 
+        data.number || 10];
 
     dbOption.select(param, function(error, result){
+        res.send(error || result);
+    });
+});
+
+//请求关联单词
+app.post("/relate_word", upload.array(), function(req, res){
+    console.log("Somebody want relate other word: " + req.body.other_id);
+    
+    var myself_id = req.body.myself_id,
+        other_id = req.body.other_id;
+
+    dbOption.relate([0, myself_id, other_id], function(error, result){
         res.send(error || result);
     });
 });
