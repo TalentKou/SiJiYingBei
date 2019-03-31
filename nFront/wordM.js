@@ -39,8 +39,24 @@ new Vue({
         relevid: {
           // 指令的定义
           inserted: function (el) {
-            el.setAttribute('onkeyup', 'value=value.replace(/[^1-9\,]/g,"")');
-            el.setAttribute('onblur', 'value=value.replace(/[^1-9\,]/g,"")');
+            el.setAttribute('onkeyup', 'value=value.replace(/[^\d\,]/g,"")');
+            el.onblur = function(){
+                var value = el.target.value.trim();
+                if(value.length > 0){
+                    var strArr = value.split(',');
+                    for(var i = 0; i < strArr.length;){
+                        if(strArr[i].trim() == ''){
+                            strArr.splice(i, 1);
+                            continue;
+                        }
+                        strArr[i] = new Number(strArr[i]);
+                        i++;
+                    }
+                    el.target.value = strArr.join(',');
+                }else{
+                    el.target.value = value;
+                }
+            };
           }
         }
     },
