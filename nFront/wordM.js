@@ -39,11 +39,11 @@ new Vue({
         relevid: {
           // 指令的定义
           inserted: function (el) {
-            el.onkeyup = function(value){
-                console.log(value);
+            el.onkeyup = function(elem){
+                console.log(elem);
             };
-            el.onblur = function(){
-                var value = el.target.value.trim();
+            el.onblur = function(elem){
+                var value = elem.target.value.trim();
                 if(value.length > 0){
                     var strArr = value.split(',');
                     for(var i = 0; i < strArr.length;){
@@ -54,9 +54,9 @@ new Vue({
                         strArr[i] = new Number(strArr[i]);
                         i++;
                     }
-                    el.target.value = strArr.join(',');
+                    elem.target.value = strArr.join(',');
                 }else{
-                    el.target.value = value;
+                    elem.target.value = value;
                 }
             };
           }
