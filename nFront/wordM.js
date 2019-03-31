@@ -40,7 +40,9 @@ new Vue({
           // 指令的定义
           inserted: function (el) {
             el.onkeyup = function(elem){
-                console.log(elem);
+		if(isNaN(parseInt(elem.key))){
+		    elem.key = "";
+		}
             };
             el.onblur = function(elem){
                 var value = elem.target.value.trim();
