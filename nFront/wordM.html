@@ -35,9 +35,9 @@
                 </td>
                 <td><input v-model="word.word_self"/></td>
                 <td><input v-model="word.word_meang"/></td>
-                <td><input v-relevid v-model="word.rel_wd_ids"/></td>
-                <td><input v-model="word.rel_juzi_ids"/></td>
-                <td><input v-model="word.rel_grm_ids"/></td>
+                <td><input type="number" v-if="optType == 2" v-model="word.rel_wd_ids"/></td>
+                <td><input type="number" v-if="optType == 2" v-model="word.rel_juzi_ids"/></td>
+                <td><input type="number" v-if="optType == 2" v-model="word.rel_grm_ids"/></td>
                 <td><input v-model="word.notes"/></td>
                 <td><button v-if="word.word_id == 0" type="button" @click="addWord">添加</button>
                     <button v-if="word.word_id != 0" type="button" @click="submitUpdate">提交</button>
