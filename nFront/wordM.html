@@ -35,8 +35,8 @@
                 </td>
                 <td><input v-model="word.word_self"/></td>
                 <td><input v-model="word.word_meang"/></td>
-                <td><input onkeyup="value=value.replace(/[^\d\,]/g,'')" 
-                           onblur="value=value.replace(/[^\d\,]/g,'')" v-model="word.rel_wd_ids"/></td>
+                <td><input onkeyup="value=value.replace(/[^\[1-9]\,]/g,'')" 
+                           onblur="value=value.replace(/[^\[1-9]\,]/g,'')" v-model="word.rel_wd_ids"/></td>
                 <td><input v-model="word.rel_juzi_ids"/></td>
                 <td><input v-model="word.rel_grm_ids"/></td>
                 <td><input v-model="word.notes"/></td>
