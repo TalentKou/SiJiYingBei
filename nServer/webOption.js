@@ -61,12 +61,14 @@ app.post("/add_word", upload.array(), function(req, res){
     var data = req.body, 
         param = ['word_tb', [], []];
 
-    middleOption.checkExistc([data.rel_wd_ids.split(','),
-    data.rel_juzi_ids.split(','),
-    data.rel_grm_ids.split(',')], function(exists){
+    middleOption.checkExistc([
+    data.rel_wd_ids.trim().length <= 0 ? [] : data.rel_wd_ids.split(','),
+    data.rel_juzi_ids.trim().length <= 0 ? [] : data.rel_juzi_ids.split(','),
+    data.rel_grm_ids.trim().length <= 0 ? [] : data.rel_grm_ids.split(',')], 
+    function(exists){
         data.rel_wd_ids = exists[0].join(',');
         data.rel_juzi_ids = exists[1].join(',');
-        data.rel_grm_ids = exists[2].join(',');console.log("ids__________" + data.rel_juzi_ids);
+        data.rel_grm_ids = exists[2].join(',');
         process();
     });
 
@@ -91,13 +93,14 @@ app.post("/add_word", upload.array(), function(req, res){
 
             function littleProc(tp, ids){
                 if(ids.length > 0){
+                    console.log("call middleOption.updateRelevs:"+0+':'+result.insertId+':'+tp+':'+ids.split(','));
                     middleOption.updateRelevs(0, result.insertId, tp, ids.split(','), 
                     function(){
                         state += 1;
                         if(state >= 3){
                             res.send(result);
                         }
-                    });
+                    }, true);
                 }else{
                     state += 1;
                     if(state >= 3){

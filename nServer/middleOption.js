@@ -27,6 +27,7 @@ function middleOption(){
         }
 
         //查询关联者
+        console.log("call dbOption.selectById:"+type+':'+id);
         dbOption.selectById(type, id, function(error, result){
             if(error){
                 console.log('[FROM DATABASE: relevant-' + id + ' NOT FOUND]');
@@ -98,14 +99,22 @@ function middleOption(){
    *relIds, //被关联者们IDs
    *callback = function(error, result){}; //回调函数：参数传回为数据库模块返回的不加修改的值。
    */
-  this.updateRelevs = function(type, id, relType, relIds, callback){
-    
+  this.updateRelevs = function(type, id, relType, relIds, callback, noCheck){
     //第一步：检查关联情况
+    if(noCheck){
+            //添加关联
+            addOrRemvRelevs(0, relType, relIds, type, id, function(error){
+                callback(error);
+            });
+            return;
+    }
+
+    console.log("call middleOption->relevsCheck:"+type+':'+id+':'+relType+':'+relIds);
     relevsCheck(type, id, relType, relIds, function(error, newRelIds, dumpRelIds){
 
-        if(!error && newRelIds.length > 0){
-
+        if(error == null && newRelIds.length > 0){
             //添加关联
+            console.log("call middleOption->addOrRemvRelevs:"+0+':'+relType+':'+newRelIds+':'+type+":"+id);
             addOrRemvRelevs(0, relType, newRelIds, type, id, function(error){
                 if(!error && dumpRelIds.length > 0){
 
