@@ -16,6 +16,7 @@ new Vue({
     el: '#wordM',
     data: {
         sum: 0,
+        optType: 0, //0，添加；1，修改；2，关联
         word: {
             word_id: 0,
             word_type: 1,
