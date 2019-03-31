@@ -151,7 +151,7 @@ function dbOption(){
     }
 
     sql += '=' + id;
-console.log(sql);
+
     connection.query(sql, function(error, result){
         callback&&callback(error, result&&result[0], tableName, fieldName);
 
@@ -162,6 +162,75 @@ console.log(sql);
 
         console.log('[FROM DATABASE: SELECT SUCCEED]');
     });
+  };
+
+  //根据类型关联数据
+  /**参数说明：
+   * data: [type, //表类型：0，单词；1，句子；2，语法。
+   *        myself_id, //关联者ID
+   *        other_id] //被关联者ID
+   * callback: function(error, result){}
+   */
+  this.relate = function(data, callback){
+    var state = [0, 0], 
+        myself = null, 
+        other = null;  
+    this.selectById(data[0], data[1], function(error, result){
+    
+        state[0] = (error ? -1 : 1);
+        myself = result;
+        proc(error);
+    });
+
+    this.selectById(data[0], data[2], function(error, result){
+       
+        state[1] = (error ? -1 : 1);
+        other = result;
+        proc(error);
+    });
+
+    var that = this;
+    function proc(error){
+        if(state[0] == 1 && state[1] == 1){
+            var fieldName = '', tableName = '', updateField = '';
+            switch(data[0]){
+                case 0: {
+                    fieldName='word_id';
+                    tableName='word_tb';
+                    updateField='rel_wd_ids';
+                    break;
+                }
+                case 1: {
+                    fieldName='sentc_id';
+                    tableName='sentence_tb';
+                    updateField='rel_juzi_ids';
+                    break;
+                }
+                case 2: {
+                    fieldName='gram_id';
+                    tableName='grammar_tb';
+                    updateField='rel_grm_ids';
+                    break;
+                }
+            }
+            myself[updateField] += (myself[updateField] == '' ? '' : ',') + data[2];
+            other[updateField] += (other[updateField] == '' ? '' : ',') + data[1];
+
+            that.update([tableName, 
+                [updateField], 
+                [myself[updateField]], 
+                [fieldName], [data[1]]], callback);
+
+            that.update([tableName, 
+                [updateField], 
+                [other[updateField]], 
+                [fieldName], [data[2]]], callback);
+        }else if(state[0] == -1 || state[1] == -1){
+            callback(error);
+        }else{
+            //still waiting ... 
+        }
+    }
   };
 }
 
