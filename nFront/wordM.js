@@ -42,23 +42,17 @@ new Vue({
             el.onkeyup = function(elem){
 		var value = elem.target.value,
 		    key = elem.key;	
-		//只能是数字和逗号    
-		if(isNaN(new Number(key)) || key == ','){
+		//输入只能是数字和逗号    
+		if(isNaN(new Number(key)) && key != ','){
 		    elem.target.value = value.substr(0, value.length - 1);
-		}else if(value.length <= 1 && key == '0'){	
-		//首字母只能是数字
-		    elem.target.value = "";	
-		}else if(value[value.length - 2] == ',' &&  (key == ',' || key == '0')){	
-		//分割只能有一个逗号, 且逗号之后的数字不能是0开头
-		    elem.target.value = value.substr(0, value.length - 1);	
 		}
             };
             el.onblur = function(elem){
-                var value = elem.target.value.trim();
+                var value = elem.target.value;
                 if(value.length > 0){
                     var strArr = value.split(',');
                     for(var i = 0; i < strArr.length;){
-                        if(strArr[i].trim() == ''){
+                        if(strArr[i] == ''){
                             strArr.splice(i, 1);
                             continue;
                         }
@@ -66,8 +60,6 @@ new Vue({
                         i++;
                     }
                     elem.target.value = strArr.join(',');
-                }else{
-                    elem.target.value = value;
                 }
             };
           }
