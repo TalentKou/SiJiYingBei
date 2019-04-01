@@ -15,9 +15,18 @@ const mainDir = "/root/SiJiYingBei/";
 
 app.get("/", function(req, res){
     console.log("Somebody accessed" + req.url);
+    res.sendFile(mainDir + "client-app/dist/index.html");
+});
+app.get("/*.js", function(req, res){
+    console.log("Somebody accessed" + req.url);
+    res.sendFile(mainDir + "client-app/dist/js/index.html");
+});
+/*
+app.get("/", function(req, res){
+    console.log("Somebody accessed" + req.url);
     res.sendFile(mainDir + "nFront/wordM.html");
 });
-
+*/
 app.get("/wordM.html", function(req, res){
     console.log("Somebody accessed" + req.url);
     res.sendFile(mainDir + "nFront/wordM.html");
