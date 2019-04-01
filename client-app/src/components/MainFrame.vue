@@ -14,8 +14,10 @@
 <script>
 export default {
   name: 'MainFrame',
-  data: {
-    isActive: 1
+  data: function(){
+    return {
+      isActive: 1
+    };
   }
 }
 </script>
