@@ -1,12 +1,12 @@
 //webOption.js
-var dbOption = new (require("./dbOption"))();
-var middleOption = new (require("./middleOption"))();
+//var dbOption = new (require("./dbOption"))();
+//var middleOption = new (require("./middleOption"))();
 var express=require("express");
 var bodyParser=require("body-parser");
 
 var app=express();
-var multer=require("multer");
-var upload=multer();// for parsing multipart/form-data
+//var multer=require("multer");
+//var upload=multer();// for parsing multipart/form-data
 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
@@ -17,16 +17,13 @@ app.get("/", function(req, res){
     console.log("Somebody accessed" + req.url);
     res.sendFile(mainDir + "client-app/dist/index.html");
 });
-app.get("/*.js", function(req, res){
-    console.log("Somebody accessed" + req.url);
-    res.sendFile(mainDir + "client-app/dist/js/index.html");
-});
+
 /*
 app.get("/", function(req, res){
     console.log("Somebody accessed" + req.url);
     res.sendFile(mainDir + "nFront/wordM.html");
 });
-*/
+
 app.get("/wordM.html", function(req, res){
     console.log("Somebody accessed" + req.url);
     res.sendFile(mainDir + "nFront/wordM.html");
@@ -294,8 +291,10 @@ app.post("/get_gram", upload.array(), function(req, res){
     dbOption.select(param, function(error, result){
         res.send(error || result);
     });
-});
+});*/
 
 app.listen(80);
 
-console.log("47.104.67.32");
+console.log("App running at: \n \
+- Local:   http://localhost:8080/ \n \
+- Network: http://192.168.6.23:8080/");
