@@ -24,14 +24,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.active{
-    color: white;
-    background-color: #42b983;
-    font-size: 15px;
-}
 .bottom-frame td{
     color: #42b983;
     background-color: white;
     font-size: 10px;
+}
+
+.active{
+    color: white;
+    background-color: #42b983;
+    font-size: 15px;
 }
 </style>
