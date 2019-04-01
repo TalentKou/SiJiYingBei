@@ -3,7 +3,8 @@
     <div class="top-frame"></div>
     <table class="bottom-frame">
         <tr>
-            <td v-bind:class="{ active: isActive == 1 }">单词</td>
+            <!--td v-bind:class="{ active: isActive == 1 }">单词</td-->
+            <td class="active">单词</td>
             <td v-bind:class="{ active: isActive == 2 }">句子</td>
             <td v-bind:class="{ active: isActive == 3 }">语法</td>
         </tr>
@@ -16,7 +17,7 @@ export default {
   name: 'MainFrame',
   data: function(){
     return {
-      isActive: 1
+      isActive: 0
     };
   }
 }
