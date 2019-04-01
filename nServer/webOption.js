@@ -11,11 +11,17 @@ var app=express();
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
-const mainDir = "/root/SiJiYingBei/";
+var lIndex = __dirname.lastIndexOf("/") < 0 ? __dirname.lastIndexOf("\\") : __dirname.lastIndexOf("/");
+const mainDir = __dirname.substr(0, lIndex + 1);
 
 app.get("/", function(req, res){
-    console.log("Somebody accessed" + req.url);
+    console.log("Somebody is accessing the homepage");
     res.sendFile(mainDir + "client-app/dist/index.html");
+});
+
+app.get("*.*", function(req, res){
+    console.log("Somebody accessed" + req.url);
+    res.sendFile(mainDir + "client-app/dist/" + req.url);
 });
 
 /*
@@ -297,4 +303,4 @@ app.listen(80);
 
 console.log("App running at: \n \
 - Local:   http://localhost:8080/ \n \
-- Network: http://192.168.6.23:8080/");
+- Network: http://47.104.67.32:8080/");
