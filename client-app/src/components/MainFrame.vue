@@ -1,7 +1,7 @@
 <template>
   <div class="main-frame">
     <div class="top-frame">
-      
+      <WordFrame :word="curWord" />
     </div>
     <table class="bottom-frame">
         <tr>
@@ -14,17 +14,44 @@
 </template>
 
 <script>
+import WordFrame from './WordFrame.vue'
 export default {
   name: 'MainFrame',
+  components: {
+    WordFrame
+  },
   data: function(){
     return {
-      isActive: 1
+      isActive: 1,
+      curWord: {
+            word_id: 0,
+            word_type: 0,
+            word_self: '大家一起来嗨aaaa',
+            word_meang: '大家一起来嗨aaaa',
+            rel_wd_ids: '',
+            rel_juzi_ids: '',
+            rel_grm_ids: '',
+            notes: '',
+            create_time: '',
+            update_time: ''
+        }
     };
+  },
+  mounted: function () {
+      var that = this;
+      //随机获取一个单词
+      this.$http.get('/get_any_word').then(
+          function(res){
+              that.curWord = res.body;
+              alert(res);    
+          },function(res){
+              alert(res);
+          });
   },
   methods: {
     chooseThis: function(index){
       this.isActive = index;
-    }
+    } 
   }
 }
 </script>
@@ -71,5 +98,9 @@ export default {
   color: white;
   background-color: #42b983;
   font-size: 20px;
+}
+
+.top-frame {
+  height: 93%;
 }
 </style>
