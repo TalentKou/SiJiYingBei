@@ -14,7 +14,7 @@
 <script>
 export default {
   name: 'MainFrame',
-  props: {
+  data: {
     isActive: 1
   }
 }
