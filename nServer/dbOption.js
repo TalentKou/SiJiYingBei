@@ -244,7 +244,7 @@ function dbOption(){
             return;
           }
 
-          sql = "SELECT * FROM " + table_name + "LIMIT 1 OFFSET " + result[0].offset;
+          sql = "SELECT * FROM " + table_name + " LIMIT 1 OFFSET " + result[0].offset;
           console.log("[DATABASE SQL: ]" + sql);
           connection.query(sql, callback);
       });
