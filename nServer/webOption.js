@@ -15,7 +15,7 @@ var lIndex = __dirname.lastIndexOf("/") < 0 ? __dirname.lastIndexOf("\\") : __di
 const mainDir = __dirname.substr(0, lIndex + 1);
 
 app.get("/", function(req, res){
-    console.log("Somebody is accessing the homepage");
+    console.log("Somebody is accessing the homepage: " + mainDir + "client-app/dist/index.html");
     res.sendFile(mainDir + "client-app/dist/index.html");
 });
 
