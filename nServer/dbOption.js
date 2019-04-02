@@ -232,6 +232,20 @@ function dbOption(){
         }
     }
   };
+
+  //从指定表中随机获取一条数据
+  this.getAnyRecord = function(table_name, callback){
+      var sql = "SELECT CEIL(RAND()*COUNT(*)) AS offset FROM " + table_name;
+      connection.query(sql, function(error, result){
+          if(error){
+            callback&&callback(error);
+            return;
+          }
+
+          sql = "SELECT * FROM " + table_name + "LIMIT 1 OFFSET " + result[0].offset;
+          connection.query(sql, callback);
+      });
+  };
 }
 
 module.exports = dbOption;

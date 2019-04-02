@@ -24,6 +24,13 @@ app.get("*.*", function(req, res){
     res.sendFile(mainDir + "client-app/dist/" + req.url);
 });
 
+app.get("get_any_word", function(req, res){
+    console.log("Somebody get a word randomly" + req.url);
+    dbOption.getAnyRecord("word_tb", function(error, result){
+        res.send(error || result);
+    });
+});
+
 /*
 app.get("/", function(req, res){
     console.log("Somebody accessed" + req.url);
