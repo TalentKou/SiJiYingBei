@@ -43,7 +43,7 @@ export default {
       this.$http.get('/get_any_word').then(
           function(res){
               that.curWord = res.body;
-              alert(res);    
+              alert(that.curWord);    
           },function(res){
               alert(res);
           });
