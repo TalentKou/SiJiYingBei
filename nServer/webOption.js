@@ -27,6 +27,7 @@ app.get("*.*", function(req, res){
 app.get("/get_any_word", function(req, res){
     console.log("Somebody get a word randomly" + req.url);
     dbOption.getAnyRecord("word_tb", function(error, result){
+        console.log("[DATEBASE LOG: ]" + error || result);
         res.send(error || result);
     });
 });
