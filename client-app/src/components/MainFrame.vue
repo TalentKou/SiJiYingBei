@@ -42,8 +42,8 @@ export default {
       //随机获取一个单词
       this.$http.get('/get_any_word').then(
           function(res){
-              that.curWord = res.body;
-              console.log(that.curWord);    
+              that.curWord = res.body[0];
+              console.log(res);    
           },function(res){
               console.log(res);
           });
