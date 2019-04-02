@@ -235,7 +235,7 @@ function dbOption(){
 
   //从指定表中随机获取一条数据
   this.getAnyRecord = function(table_name, callback){
-      var sql = "SELECT CEIL(RAND()*COUNT(*)) AS offset FROM " + table_name;
+      var sql = "SELECT FLOOR(RAND()*COUNT(*)) AS offset FROM " + table_name;
       console.log("[DATABASE SQL: ]" + sql);
       connection.query(sql, function(error, result){
           if(error){
