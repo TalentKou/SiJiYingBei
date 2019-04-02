@@ -55,7 +55,4 @@ export default {
     border-bottom: 1px solid green;
     border-left: 1px solid green;
 }
-
-.content{
-}
 </style>
