@@ -1,5 +1,5 @@
 //webOption.js
-//var dbOption = new (require("./dbOption"))();
+var dbOption = new (require("./dbOption"))();
 //var middleOption = new (require("./middleOption"))();
 var express=require("express");
 var bodyParser=require("body-parser");
