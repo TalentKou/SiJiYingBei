@@ -236,13 +236,16 @@ function dbOption(){
   //从指定表中随机获取一条数据
   this.getAnyRecord = function(table_name, callback){
       var sql = "SELECT CEIL(RAND()*COUNT(*)) AS offset FROM " + table_name;
+      console.log("[DATABASE SQL: ]" + sql);
       connection.query(sql, function(error, result){
           if(error){
+            console.log("[DATABASE ERROR: ]" + error);
             callback&&callback(error);
             return;
           }
 
           sql = "SELECT * FROM " + table_name + "LIMIT 1 OFFSET " + result[0].offset;
+          console.log("[DATABASE SQL: ]" + sql);
           connection.query(sql, callback);
       });
   };
